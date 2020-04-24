@@ -106,14 +106,21 @@ class Activity implements \JsonSerializable {
 	/**
 	 * @return mixed
 	 */
-	public function getActivityLat() {
+	public function getActivityLat() : float {
 		return $this->activityLat;
 	}
 
 	/**
 	 * @param mixed $activityLat
 	 */
-	public function setActivityLat($newActivityLat) {
+	public function setActivityLat(float $newActivityLat) {
+		//ensure this is decimal data type
+		try {
+			$newActivityLat = filter_var($newActivityLat, FILTER_VALIDATE_FLOAT);
+		} catch (\TypeError $exception) {
+			throw(new \TypeError("Activity latitude value is an invalid data type"));
+		}
+
 		$this->activityLat = $newActivityLat;
 	}
 
@@ -134,14 +141,20 @@ class Activity implements \JsonSerializable {
 	/**
 	 * @return mixed
 	 */
-	public function getActivityLng() {
+	public function getActivityLng() : float {
 		return $this->activityLng;
 	}
 
 	/**
 	 * @param mixed $activityLng
 	 */
-	public function setActivityLng($newActivityLng) {
+	public function setActivityLng(float $newActivityLng) {
+		//ensure this is decimal data type
+		try {
+			$newActivityLng = filter_var($newActivityLng, FILTER_VALIDATE_FLOAT);
+		} catch (\TypeError $exception) {
+			throw(new \TypeError("Activity longitude value is an invalid data type"));
+		}
 		$this->activityLng = $newActivityLng;
 	}
 

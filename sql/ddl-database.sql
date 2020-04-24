@@ -26,7 +26,7 @@ CREATE TABLE activity(
 CREATE TABLE favorite(
 	favoriteProfileId BINARY(16) NOT NULL,
 	favoriteActivityId BINARY(16) NOT NULL,
-	favoriteDate DATETIME(6) NOT NULLABLE,
+	favoriteDate DATETIME(6) NOT NULL,
 	INDEX(favoriteProfileId),
 	INDEX(favoriteActivityId),
 	FOREIGN KEY(favoriteProfileId) REFERENCES profile(profileId),
