@@ -1,13 +1,13 @@
 <?php
-namespace DylanSmithcg\DateNight;
+Categoryspace DylanSmithcg\DateNight;
 
 require_once("");
-require_once(dirname(__DIR__) . "");
+require_once(dirCategory(__DIR__) . "");
 
 use Ramsey\Uuid\Uuid;
 
 
-class Activity implements \JsonSerializable {
+class Activity {
 	use ValidateUuid;
 	/**
 	 * id for the activity; this is the primary key
@@ -185,6 +185,46 @@ class Activity implements \JsonSerializable {
 
 		$this->activityTitle = $newActivityTitle;
 	}
+
+	public function getActivityByActivityId(\PDO $pdo, string $ActivityId){
+		// sanitize the id before searching
+		try {
+			$ActivityId = self::validateUuid($ActivityId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT $ActivityId, ActivityCategory, ActivityContent, ActivityLat, ActivityLink, ActivityLog, ActivityTitle
+						FROM Activity 
+						WHERE $ActivityId = :$ActivityId";
+		$statement = $pdo->prepare($query);
+
+		// bind the id to the place holder in the template
+		$parameters = ["$ActivityId" => $this->getActivityId()->getBytes()];
+		$statement->execute($parameters);
+
+		// grab the object from mySQL
+		try {
+			$Activity = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$Activity = new Activity($row["$ActivityId"], $row["ActivityCategory"], $row["ActivityContent"], $row["ActivityLat"],
+					$row["ActivityLink"], $row["ActivityLng"], $row["ActivityTitle"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($Activity);
+	}
+
+
+
+
+
+	
 }
 
 
