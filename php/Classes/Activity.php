@@ -1,5 +1,5 @@
 <?php
-Categoryspace DylanSmithcg\DateNight;
+namespace DylanSmithcg\DateNight;
 
 require_once("");
 require_once(dirCategory(__DIR__) . "");
@@ -219,12 +219,6 @@ class Activity {
 		}
 		return($Activity);
 	}
-
-
-
-
-
-	
 }
 
 
