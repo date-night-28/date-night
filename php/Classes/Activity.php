@@ -79,20 +79,6 @@ class Activity implements \JsonSerializable {
 	/**
 	 * @return mixed
 	 */
-	public function getActivityCategory() {
-		return $this->activityCategory;
-	}
-
-	/**
-	 * @param mixed $newActivityCategory
-	 */
-	public function setActivityCategory($newActivityCategory) {
-		$this->activityCategory = $newActivityCategory;
-	}
-
-	/**
-	 * @return mixed
-	 */
 	public function getActivityContent() {
 		return $this->activityContent;
 	}
@@ -100,7 +86,16 @@ class Activity implements \JsonSerializable {
 	/**
 	 * @param mixed $newActivityContent
 	 */
+
 	public function setActivityContent($newActivityContent) {
+		$newActivityContent = filter_var($newActivityContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newActivityContent) === true) {
+			throw(new \InvalidArgumentException("Activity Content is empty or insecure"));
+		}
+		//Just truncate and issue warning.
+		if(strlen($newActivityContent) > 256) {
+			throw(new \RangeException("Activity Content is longer than 256 characters"));
+		}
 		$this->activityContent = $newActivityContent;
 	}
 	/**
@@ -135,6 +130,16 @@ class Activity implements \JsonSerializable {
 	 * @param mixed $activityLink
 	 */
 	public function setActivityLink($newActivityLink) {
+		try {
+			$newActivityLink = filter_var($newActivityLink, FILTER_VALIDATE_URL);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		if(strlen($newActivityLink) > 255) {
+			throw(new \RangeException("Activity Link is longer than 255 characters"));
+		}
+
 		$this->activityLink = $newActivityLink;
 	}
 
@@ -169,6 +174,15 @@ class Activity implements \JsonSerializable {
 	 * @param mixed $activityTitle
 	 */
 	public function setActivityTitle($newActivityTitle) {
+		$newActivityTitle = filter_var($newActivityTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newActivityTitle) === true) {
+			throw(new \InvalidArgumentException("Activity Title is empty or insecure"));
+		}
+		//Just truncate and issue warning.
+		if(strlen($newActivityTitle) > 50) {
+			throw(new \RangeException("Activity Title is longer than 50 characters"));
+		}
+
 		$this->activityTitle = $newActivityTitle;
 	}
 }
