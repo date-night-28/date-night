@@ -1,5 +1,5 @@
 <?php
-namespace GabyVeloz\DateNight;
+namespace DateNight28\DateNight;
 
 require_once("autoload.php");
 require_once(dirname(__DIR__) . "Classes/autoload.php");

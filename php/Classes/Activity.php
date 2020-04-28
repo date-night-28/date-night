@@ -1,5 +1,5 @@
 <?php
-namespace DylanSmithcg\DateNight;
+namespace DateNight28\DateNight;
 
 require_once("");
 require_once(dirCategory(__DIR__) . "");
