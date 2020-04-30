@@ -390,9 +390,20 @@ class Profile {
 
 
 	/**
-	 * @inheritDoc
-	 */
-	public function jsonSerialize() {
-		// TODO: Implement jsonSerialize() method.
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() : array {
+		$fields = get_object_vars($this);
+
+		$fields["profileId"] = $this->profileId->toString();
+		unset($fields["profileActivationToken"]);
+		$fields["profileEmail"] = $this->profileEmail->toString();
+		unset($fields["profileHash"]);
+		$fields["profileName"] = $this->profileName->toString();
+
+		return ($fields);
+
 	}
 }

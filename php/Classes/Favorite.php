@@ -2,24 +2,25 @@
 namespace DateNight28\DateNight;
 
 require_once("autoload.php");
-require_once(dirname(__DIR__) . "Classes/autoload.php");
+require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
-use phpDocumentor\Reflection\Types\Void_;
 use Ramsey\Uuid\Uuid;
 
 
 class Favorite {
+use ValidateDate;
+use ValidateUuid;
 
 private $favoriteProfileId;
 private $favoriteActivityId;
 private $favoriteDate;
 
 	/**
-	 * constructor for this Like
+	 * constructor for this Favorite
 	 *
 	 * @param string|Uuid $newFavoriteProfileId id of the parent Profile
 	 * @param string|Uuid $newFavoriteActivityId id of the parent Activity
-	 * @param \DateTime|null $newFavoriteDate date the activity was favorited (or null for current time)
+	 * @param \DateTime|null $newFavoriteDate date the activity was marked favorite (or null for current time)
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
@@ -46,7 +47,7 @@ private $favoriteDate;
 	 * @return Uuid value of profile id
 	 **/
 	public function getFavoriteProfileId() : Uuid {
-		return ($this->FavoriteProfileId);
+		return ($this->favoriteProfileId);
 	}
 	
 	/**
@@ -58,7 +59,7 @@ private $favoriteDate;
 	 **/
 	public function setFavoriteProfileId($newFavoriteProfileId) : void {
 		try {
-			$uuid = self::validateUuid($newLikeProfileId);
+			$uuid = self::validateUuid($newFavoriteProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -93,7 +94,7 @@ private $favoriteDate;
 		}
 
 		// convert and store the activity id
-		$this->FavoriteActivityId = $uuid;
+		$this->favoriteActivityId = $uuid;
 	}
 	
 	/**
@@ -172,7 +173,7 @@ private $favoriteDate;
 	 * @param string $favoriteActivityId activity id to search for
 	 * @return Favorite|null Favorite found or null if not found
 	 */
-	public static function getFavoriteByFavoriteActivityIdAndFavoriteProfileId(\PDO $pdo, string $favoriteProfileId, string $favoriteActivityId) : ?Like {
+	public static function getFavoriteByFavoriteActivityIdAndFavoriteProfileId(\PDO $pdo, string $favoriteProfileId, string $favoriteActivityId) : ?Favorite {
 		try {
 			$favoriteProfileId = self::validateUuid($favoriteProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -238,7 +239,7 @@ private $favoriteDate;
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$favorite = new Favorite($row["favoriteProfileId"], $row["favoriteActivityId"], $row["favoriteDate"]);
-				$favorites[$likes->key()] = $favorite;
+				$favorites[$favorites->key()] = $favorite;
 				$favorites->next();
 			} catch(\Exception $exception) {
 
@@ -253,7 +254,7 @@ private $favoriteDate;
 	 * gets the favorites by activity id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $favoriteActivityId favorite id to search for
+	 * @param string $favoriteActivityId activity id to search for
 	 * @return \SplFixedArray array of favorites found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
@@ -274,7 +275,7 @@ private $favoriteDate;
 		$statement->execute($parameters);
 
 		// build the array of likes
-		$likes = new \SplFixedArray($statement->rowCount());
+		$favorites = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -301,6 +302,7 @@ private $favoriteDate;
 		$fields["favoriteProfileId"] = $this->favoriteProfileId;
 		$fields["favoriteActivityId"] = $this->favoriteActivityId;
 		$fields["favoriteDate"] = round(floatval($this->favoriteDate->format("U.u")) * 1000);
+
 		return ($fields);
 	}
 }
