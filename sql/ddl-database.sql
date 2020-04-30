@@ -13,8 +13,7 @@ CREATE TABLE profile(
 
 CREATE TABLE activity(
 	activityId BINARY(16) NOT NULL,
-	activityCategory CHAR(16),
-	activityContent VARCHAR(256),
+	activityImageUrl VARCHAR(255),
 	activityLat DECIMAL(9,6) NOT NULL,
 	activityLink VARCHAR(255) NOT NULL,
 	activityLng DECIMAL(9,6) NOT NULL,
