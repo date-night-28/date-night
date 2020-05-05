@@ -76,14 +76,10 @@ class ProfileTest extends DateNightTest {
 	}
 
 	/*public function tesDeletetValidProfile() :void{
-
 	}
 	public function testGetValidProfileByProfileId() :void{
-
 	}
 	public function tesDeletetValidProfiles() :void{
-
 	}
 	*/
-
 }
