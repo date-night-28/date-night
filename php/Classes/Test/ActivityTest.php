@@ -16,61 +16,32 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 
 class ActivityTest extends DateNightTest {
-	/**
-	 * content of the Activity
-	 * @var string $VALID_ACTIVITYCONTENT
-	 **/
-	protected $VALID_ACTIVITYCONTENT = "PHPUnit test passing";
 
-	/**
-	 * content of the updated Activity
-	 * @var string $VALID_ACTIVITYCONTENT2
-	 **/
-	protected $VALID_ACTIVITYCONTENT2 = "PHPUnit test still passing";
 
-	/**
-	 * timestamp of the Activity; this starts as null and is assigned later
-	 * @var \DateTime $VALID_ACTIVITYDATE
-	 **/
-	protected $VALID_ACTIVITYDATE = null;
+	protected $VALID_ACTIVITY_ID = "PHPUnit test still passing";
 
-	/**
-	 * Valid timestamp to use as sunriseActivityDate
-	 */
-	protected $VALID_SUNRISEDATE = null;
 
-	/**
-	 * Valid timestamp to use as sunsetActivityDate
-	 */
-	protected $VALID_SUNSETDATE = null;
+	protected $VALID_ACTIVITY_IMAGE_URl = "PHPUnit test still passing";
+
+
+	protected $VALID_ACTIVITY_LAT = "PHPUnit test still passing";
+
+
+	protected $VALID_ACTIVITY_LINK = "PHPUnit test still passing";
+
+
+	protected $VALID_ACTIVITY_LNG = "PHPUnit test still passing";
+
+
+	protected $VALID_ACTIVITY_TITLE = "PHPUnit test still passing";
 
 	/**
 	 * create dependent objects before running each test
 	 **/
 	public final function setUp()  : void {
-		// run the default setUp() method first
-		parent::setUp();
-		$password = "abc123";
-		$this->VALID_PROFILE_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
-
-
-		// create and insert a Profile to own the test Activity
-		$this->profile = new Profile(generateUuidV4(), null,"@handle", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "test@phpunit.de",$this->VALID_PROFILE_HASH, "+12125551212");
-		$this->profile->insert($this->getPDO());
-
-		// calculate the date (just use the time the unit test was setup...)
-		$this->VALID_ACTIVITYDATE = new \DateTime();
-
-		//format the sunrise date to use for testing
-		$this->VALID_SUNRISEDATE = new \DateTime();
-		$this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
-
-		//format the sunset date to use for testing
-		$this->VALID_SUNSETDATE = new\DateTime();
-		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
-
-
-
+		// create and insert a activityId to own the test Activity
+		$this->activityId = new activity(generateUuidV4(), "test@phpunit.de");
+		$this->activity->insert($this->getPDO());
 	}
 
 	/**
@@ -82,17 +53,14 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->profile->getProfileId(), $this->VALID_ACTIVITYCONTENT, $this->VALID_ACTIVITYDATE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoActivity = Activity::getActivityByActivityId($this->getPDO(), $activity->getActivityId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
 		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
-		$this->assertEquals($pdoActivity->getActivityProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoActivity->getActivityContent(), $this->VALID_ACTIVITYCONTENT);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoActivity->getActivityDate()->getTimestamp(), $this->VALID_ACTIVITYDATE->getTimestamp());
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
 	}
 
 	/**
@@ -104,21 +72,22 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->profile->getProfileId(), $this->VALID_ACTIVITYCONTENT, $this->VALID_ACTIVITYDATE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// edit the Activity and update it in mySQL
-		$activity->setActivityContent($this->VALID_ACTIVITYCONTENT2);
+		$activity->setActivityImageUrl($this->VALID_ACTIVITY_IMAGE_URl);
 		$activity->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoActivity = Activity::getActivityByActivityId($this->getPDO(), $activity->getActivityId());
 		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
-		$this->assertEquals($pdoActivity->getActivityProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoActivity->getActivityContent(), $this->VALID_ACTIVITYCONTENT2);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoActivity->getActivityDate()->getTimestamp(), $this->VALID_ACTIVITYDATE->getTimestamp());
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
 	}
 
 
@@ -131,7 +100,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->profile->getProfileId(), $this->VALID_ACTIVITYCONTENT, $this->VALID_ACTIVITYDATE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// delete the Activity from mySQL
@@ -147,84 +116,225 @@ class ActivityTest extends DateNightTest {
 	/**
 	 * test inserting a Activity and regrabbing it from mySQL
 	 **/
-	public function testGetValidActivityByActivityProfileId() {
+	public function testGetValidActivityByActivityId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("activity");
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->profile->getProfileId(), $this->VALID_ACTIVITYCONTENT, $this->VALID_ACTIVITYDATE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Activity::getActivityByActivityProfileId($this->getPDO(), $activity->getActivityProfileId());
+		$results = Activity::getActivityByActivityId($this->getPDO(), $activity->getActivityId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Activity", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DateNight\\Activity", $results);
 
 		// grab the result from the array and validate it
 		$pdoActivity = $results[0];
 
 		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
-		$this->assertEquals($pdoActivity->getActivityProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoActivity->getActivityContent(), $this->VALID_ACTIVITYCONTENT);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoActivity->getActivityDate()->getTimestamp(), $this->VALID_ACTIVITYDATE->getTimestamp());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
 	}
 
 	/**
-	 * test grabbing a Activity by activity content
+	 * test grabbing a Activity by activity image url
 	 **/
-	public function testGetValidActivityByActivityContent() : void {
+	public function testGetValidActivityByActivityImageUrl() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("activity");
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->profile->getProfileId(), $this->VALID_ACTIVITYCONTENT, $this->VALID_ACTIVITYDATE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Activity::getActivityByActivityContent($this->getPDO(), $activity->getActivityContent());
+		$results = Activity::getActivityByActivityImageUrl($this->getPDO(), $activity->getActivityImageUrl());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
 		$this->assertCount(1, $results);
 
 		// enforce no other objects are bleeding into the test
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Activity", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DateNight\\Activity", $results);
 
-		// grab the result from the array and validate it
+		
+		
 		$pdoActivity = $results[0];
+
 		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
-		$this->assertEquals($pdoActivity->getActivityProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoActivity->getActivityContent(), $this->VALID_ACTIVITYCONTENT);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoActivity->getActivityDate()->getTimestamp(), $this->VALID_ACTIVITYDATE->getTimestamp());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
 	}
 
 	/**
-	 * test grabbing all Activitys
+	 * test grabbing a Activity by activity Lat
 	 **/
-	public function testGetAllValidActivitys() : void {
+	public function testGetValidActivityByActivityLat() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("activity");
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->profile->getProfileId(), $this->VALID_ACTIVITYCONTENT, $this->VALID_ACTIVITYDATE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Activity::getAllActivitys($this->getPDO());
+		$results = Activity::getActivityByActivityLat($this->getPDO(), $activity->getActivityLat());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertCount(1, $results);
+
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DateNight\\Activity", $results);
+
+
+
+		$pdoActivity = $results[0];
+
+		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
+	}
+
+	/**
+	 * test grabbing a Activity by activity Link
+	 **/
+	public function testGetValidActivityByActivityLink() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("activity");
+
+		// create a new Activity and insert to into mySQL
+		$activityId = generateUuidV4();
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Activity::getActivityByActivityLink($this->getPDO(), $activity->getActivityLink());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertCount(1, $results);
+
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DateNight\\Activity", $results);
+
+
+
+		$pdoActivity = $results[0];
+
+		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
+	}
+
+	/**
+	 * test grabbing a Activity by activity Lng
+	 **/
+	public function testGetValidActivityByActivityLng() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("activity");
+
+		// create a new Activity and insert to into mySQL
+		$activityId = generateUuidV4();
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Activity::getActivityByActivityLng($this->getPDO(), $activity->getActivityLng());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertCount(1, $results);
+
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DateNight\\Activity", $results);
+
+
+
+		$pdoActivity = $results[0];
+
+		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
+	}
+
+	/**
+	 * test grabbing a Activity by activity Title
+	 **/
+	public function testGetValidActivityByActivityTitle() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("activity");
+
+		// create a new Activity and insert to into mySQL
+		$activityId = generateUuidV4();
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Activity::getActivityByActivityTitle($this->getPDO(), $activity->getActivityTitle());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertCount(1, $results);
+
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DateNight\\Activity", $results);
+
+
+
+		$pdoActivity = $results[0];
+
+		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
+	}
+
+	/**
+	 * test grabbing all Activities
+	 **/
+	public function testGetAllValidActivities() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("activity");
+
+		// create a new Activity and insert to into mySQL
+		$activityId = generateUuidV4();
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Activity::getAllActivities($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Activity", $results);
 
-		// grab the result from the array and validate it
+
 		$pdoActivity = $results[0];
+
 		$this->assertEquals($pdoActivity->getActivityId(), $activityId);
-		$this->assertEquals($pdoActivity->getActivityProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoActivity->getActivityContent(), $this->VALID_ACTIVITYCONTENT);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoActivity->getActivityDate()->getTimestamp(), $this->VALID_ACTIVITYDATE->getTimestamp());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("activity"));
+		$this->assertEquals($pdoActivity->getActivityImageUrl(), $this->VALID_ACTIVITY_IMAGE_URl);
+		$this->assertEquals($pdoActivity->getActivityLat(), $this->VALID_ACTIVITY_LAT);
+		$this->assertEquals($pdoActivity->getActivityLink(), $this->VALID_ACTIVITY_LINK);
+		$this->assertEquals($pdoActivity->getActivityLng(), $this->VALID_ACTIVITY_LNG);
+		$this->assertEquals($pdoActivity->getActivityTitle(), $this->VALID_ACTIVITY_TITLE);
 	}
 }
