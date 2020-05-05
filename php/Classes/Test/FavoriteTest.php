@@ -21,6 +21,7 @@ class FavoriteTest extends DateNightTest {
 /**
  * create dependent objects before running each test
  **/
+
 	public final function setUp() : void {
 		parent::setUp();
 		$this->VALID_FAVORITE_PROFILE_ID = bin2hex(random_bytes(16));

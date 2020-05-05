@@ -34,7 +34,7 @@ class ProfileTest extends DateNightTest {
 
 		//insert ab profile record in db
 		$profileId = generateUuidV4()->toString();
-		$profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, $this->VALID_AVATAR_URL, $this->VALID_PROFILE_EMAIL, $this->VALID_PROFILE_HASH, $this->VALID_NAME);
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, $this->VALID_PROFILE_EMAIL, $this->VALID_PROFILE_HASH, $this->VALID_NAME);
 
 		//check count of profile records in the db after the insert
 		$numRowsAfterInsert = $this->getConnection()->getRowCount("profile");
