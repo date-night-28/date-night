@@ -216,9 +216,7 @@ class Activity {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT $ActivityId, ActivityImageUrl, ActivityLat, ActivityLink, ActivityLog, ActivityTitle
-          FROM Activity 
-          WHERE $ActivityId = :$ActivityId";
+		$query = "SELECT $ActivityId, ActivityImageUrl, ActivityLat, ActivityLink, ActivityLog, ActivityTitle FROM Activity WHERE $ActivityId = :$ActivityId";
 		$statement = $pdo->prepare($query);
 		// bind the id to the place holder in the template
 		$parameters = ["$ActivityId" => $this->getActivityId()->getBytes()];
