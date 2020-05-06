@@ -19,7 +19,7 @@ require_once(dirname(__DIR__) . "/Classes/autoload.php");
 //$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
 //$pdo = $secrets->getPdoObject();
 
-use GabyVeloz\DateNight\{Profile};
+use DateNight28\DateNight\{DateNightTest, Profile};
 
 //fix url code
 
@@ -29,7 +29,7 @@ $profileEmail = "anyemail@none.com";
 $profileHash = password_hash("mypw123", PASSWORD_ARGON2ID, ["time_cost" => 9]);
 $profileName = "anyname";
 try {
-	$profile = new Author($profileId, $profileActivationToken, $profileEmail, $profileHash, $profileName);
+	$profile = new Profile($profileId, $profileActivationToken, $profileEmail, $profileHash, $profileName);
 	echo "<h1>" . $profile->getProfileName() . "</h1>";
 }
 

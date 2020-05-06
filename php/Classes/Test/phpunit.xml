@@ -1,9 +1,9 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="">
-			<file>ProfileTest.php</file>
-			<!--<file>ActivityTest.php</file>
-			<file>FavoriteTest.php</file>-->
+			<!--<file>ProfileTest.php</file>-->
+			<file>ActivityTest.php</file>
+			<!--<file>FavoriteTest.php</file>-->
 		</testsuite>
 	</testsuites>
 	<filter>
