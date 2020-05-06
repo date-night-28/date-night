@@ -88,12 +88,12 @@ abstract class DateNightTest extends TestCase {
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
 
-
-			$secrets = new Secrets("/etc/apache2/capstone-mysql/cohort28/dncrew.ini”);
+			//TODO fix namespace on secrets
+			$secrets =  new \Secrets("/etc/apache2/capstone-mysql/cohort28/dncrew.ini");
 			$pdo = $secrets->getPdoObject();
 			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
 		}
-		return ($this->connection);
+		return($this->connection);
 	}
 
 	/**
@@ -102,6 +102,6 @@ abstract class DateNightTest extends TestCase {
 	 * @return \PDO active PDO object
 	 **/
 	public final function getPDO() {
-		return ($this->getConnection()->getConnection());
+		return($this->getConnection()->getConnection());
 	}
 }
