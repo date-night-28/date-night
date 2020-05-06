@@ -2,28 +2,27 @@
 namespace DateNight28\DateNight\Test;
 
 use DateNight28\DateNight\{DateNightTest, Profile};
-//hack! -added for practice
-require_once(dirname(__DIR__) . "/Test/DateNightTest.php");
+
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
 
 // grab the uuid generator
-require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
+require_once(dirname(__DIR__, 2) . "../lib/uuid.php");
 
 
 class ProfileTest extends DateNightTest {
 
-	private $VALID_ACTIVATION_TOKEN;//later
-	private $VALID_PROFILE_EMAIL = "gabrielaveloz@yahoo.com";
-	private $VALID_PROFILE_HASH;//later
-	private $VALID_NAME = "gveloz";
+	protected $VALID_PROFILE_ID; //ID
+	protected $VALID_ACTIVATION_TOKEN; //later
+	protected $VALID_PROFILE_EMAIL = "gabrielaveloz@yahoo.com";
+	protected $VALID_PROFILE_HASH; //later
+	protected $VALID_NAME = "gaby veloz";
 
 
-	public function setUp() : void {
+	public final function setUp() : void {
 		parent::setUp();
-		$password = "lalala";
+		$password = "mypassword";
 		$this->VALID_PROFILE_HASH = password_hash("mypassword", PASSWORD_ARGON2ID, ["time_cost" => 9]);
-		$this->VALID_ACTIVATION_TOKEN = bin2hex(random_bytes(16));
 	}
 
 
@@ -47,7 +46,6 @@ class ProfileTest extends DateNightTest {
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId()->toString());
 		self::assertEquals($profileId, $pdoProfile->getProfileId());
 		self::assertEquals($this->VALID_ACTIVATION_TOKEN, $pdoProfile->getProfileActivationToken());
-		self::assertEquals($this->VALID_AVATAR_URL, $pdoProfile->getProfileAvatarUrl());
 		self::assertEquals($this->VALID_PROFILE_EMAIL, $pdoProfile->getProfileEmail());
 		self::assertEquals($this->VALID_PROFILE_HASH, $pdoProfile->getProfileHash());
 		self::assertEquals($this->VALID_NAME, $pdoProfile->getProfileName());
