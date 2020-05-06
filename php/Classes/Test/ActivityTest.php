@@ -40,7 +40,7 @@ class ActivityTest extends DateNightTest {
 	 **/
 	public final function setUp()  : void {
 		// create and insert a activityId to own the test Activity
-		$this->activityId = new activity(generateUuidV4(), "test@phpunit.de");
+		$this->activityId = new activity(generateUuidV4());
 		$this->activity->insert($this->getPDO());
 	}
 
@@ -53,7 +53,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -72,7 +72,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// edit the Activity and update it in mySQL
@@ -100,7 +100,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// delete the Activity from mySQL
@@ -122,7 +122,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -152,7 +152,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -185,7 +185,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -218,7 +218,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -251,7 +251,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -284,7 +284,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -317,7 +317,7 @@ class ActivityTest extends DateNightTest {
 
 		// create a new Activity and insert to into mySQL
 		$activityId = generateUuidV4();
-		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URL, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
+		$activity = new Activity($activityId, $this->VALID_ACTIVITY_IMAGE_URl, $this->VALID_ACTIVITY_LAT, $this->VALID_ACTIVITY_LINK, $this->VALID_ACTIVITY_LNG, $this->VALID_ACTIVITY_TITLE);
 		$activity->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
