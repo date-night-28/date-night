@@ -1,7 +1,7 @@
 <?php
 namespace DateNight28\DateNight\Test;
 
-use DateNight28\DateNight\{DateNightTest, Favorite};
+use DateNight28\DateNight\{Favorite};
 //hack! -added for practice
 require_once(dirname(__DIR__) . "/Test/DateNightTest.php");
 

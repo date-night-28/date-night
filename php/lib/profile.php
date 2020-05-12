@@ -19,7 +19,7 @@ require_once(dirname(__DIR__) . "/Classes/autoload.php");
 //$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
 //$pdo = $secrets->getPdoObject();
 
-use DateNight28\DateNight\{DateNightTest, Profile};
+use DateNight28\DateNight\{Profile};
 
 //fix url code
 

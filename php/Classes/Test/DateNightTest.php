@@ -1,6 +1,6 @@
 <?php
 
-namespace DateNight28\DateNight;
+namespace DateNight28\DateNight\Test {}
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;

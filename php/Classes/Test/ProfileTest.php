@@ -1,7 +1,7 @@
 <?php
 namespace DateNight28\DateNight\Test;
 
-use DateNight28\DateNight\{DateNightTest, Profile};
+use DateNight28\DateNight\{Profile};
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");

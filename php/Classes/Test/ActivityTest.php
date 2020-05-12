@@ -2,7 +2,7 @@
 
 namespace DateNight28\DateNight\Test;
 
-use DateNight28\DateNight\{DateNightTest, Activity};
+use DateNight28\DateNight\{Activity};
 
 //hack! -added for practice
 
@@ -19,20 +19,10 @@ class ActivityTest extends DateNightTest {
 
 
 	protected $VALID_ACTIVITY_ID = "PHPUnit test still passing";
-
-
 	protected $VALID_ACTIVITY_IMAGE_URl = "PHPUnit test still passing";
-
-
 	protected $VALID_ACTIVITY_LAT = "PHPUnit test still passing";
-
-
 	protected $VALID_ACTIVITY_LINK = "PHPUnit test still passing";
-
-
 	protected $VALID_ACTIVITY_LNG = "PHPUnit test still passing";
-
-
 	protected $VALID_ACTIVITY_TITLE = "PHPUnit test still passing";
 
 	/**
