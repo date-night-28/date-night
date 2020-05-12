@@ -24,10 +24,10 @@ class Profile {
 	public function __construct($newProfileId, ?string $newProfileActivationToken, string $newProfileEmail, string $newProfileHash, string $newProfileName) {
 		try {
 			$this->setProfileId($newProfileId);
-			$this->setProfileActivationToken($profileActivationToken);
-			$this->setProfileEmail($profileEmail);
-			$this->setProfileHash($profileHash);
-			$this->setProfileName($profileName);
+			$this->setProfileActivationToken($newProfileActivationToken);
+			$this->setProfileEmail($newProfileEmail);
+			$this->setProfileHash($newProfileHash);
+			$this->setProfileName($newProfileName);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);

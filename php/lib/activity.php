@@ -18,7 +18,7 @@ require_once dirname(__DIR__, 1) . "Classes/autoload.php";
 //$secrets = new Secrets("/etc/apache2/capstone-mysql/cohort28/dncrew.ini”);
 //$pdo = $secrets->getPdoObject();
 
-use DateNight28\DateNight\{DateNightTest, Activity};
+use DateNight28\DateNight\{Activity};
 
 //fix url code
 

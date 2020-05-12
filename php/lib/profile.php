@@ -16,7 +16,7 @@ require_once(dirname(__DIR__) . "/Classes/autoload.php");
 //require_once("/etc/apache2/capstone-mysql/Secrets.php");
 //require("uuid.php");
 
-//$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
+//$secrets = new \Secrets("/etc/apache2/capstone-mysql/dncrew.ini");
 //$pdo = $secrets->getPdoObject();
 
 use DateNight28\DateNight\{Profile};
