@@ -210,7 +210,7 @@ class Activity {
 		$statement->execute($parameters);
 	}
 
-	public function getActivityByActivityId(\PDO $pdo, string $activityId){
+	public function getActivityByActivityId(\PDO $pdo, string $activityId) : ?Activity{
 		// sanitize the id before searching
 		try {
 			$activityId = self::validateUuid($activityId);
