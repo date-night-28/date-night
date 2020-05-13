@@ -108,7 +108,6 @@ class FavoriteTest extends DateNightTest {
 			//format the date too seconds since the beginning of time to avoid round off error
 			$this->assertEquals($pdoFavorite->getFavoriteDate()->getTimestamp(), $favorite->getFavoriteDate()->getTimestamp());
 
-
 		}
 
 	/**
