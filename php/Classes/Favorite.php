@@ -85,7 +85,7 @@ private $favoriteDate;
 	 * @throws \RangeException if $newActivityId is not positive
 	 * @throws \TypeError if $newFavoriteActivityId is not an integer
 	 **/
-	public function setFavoriteActivityId( $newFavoriteActivityId) : Void_ {
+	public function setFavoriteActivityId( $newFavoriteActivityId) : void {
 		try {
 			$uuid = self::validateUuid($newFavoriteActivityId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -154,7 +154,7 @@ private $favoriteDate;
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
-	public function delete(\PDO $pdo) : void {
+	public function deleteFavoriteByProfileIdAndActivityId(\PDO $pdo) : void {
 
 		// create query template
 		$query = "DELETE FROM `favorite` WHERE favoriteProfileId = :favoriteProfileId AND favoriteActivityId = :favoriteActivityId";
@@ -234,7 +234,7 @@ private $favoriteDate;
 		$statement->execute($parameters);
 
 		// build an array of likes
-		$likes = new \SplFixedArray($statement->rowCount());
+		$favorites = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
