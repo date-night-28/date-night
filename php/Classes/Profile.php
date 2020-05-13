@@ -247,16 +247,14 @@ class Profile {
 	public function update(\PDO $pdo): void {
 
 		// create query template
-		$query = "UPDATE profile 
-						SET profileActivationToken = :profileActivationToken, 						profileEmail = :profileEmail, 
-						profileHash = :profileHash, 
-						profileName = :profileName, 
-						WHERE profileId = :profileId";
+		$query = "UPDATE profile SET profileActivationToken = :profileActivationToken, profileEmail = :profileEmail, 
+profileHash = :profileHash, profileName = :profileName WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
 
-		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileName" => $this->profileName];
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken,
+			"profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileName" => $this->profileName];
 		$statement->execute($parameters);
 	}
 
@@ -386,6 +384,49 @@ class Profile {
 		return ($profile);
 	}
 
+
+
+	/**
+	 * gets the Profile by name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileName name to search for
+	 * @return Profile|null Profile or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileName(\PDO $pdo, string $profileName): ?Profile {
+
+		// sanitize the email before searching
+		$profileName = trim($profileName);
+		$profileName = filter_var($profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+		if(empty($profileName) === true) {
+			throw(new \PDOException("not a valid name"));
+		}
+
+		// create query template
+		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileName FROM profile WHERE profileName = :profileName";
+		$statement = $pdo->prepare($query);
+
+		// bind the profile id to the place holder in the template
+		$parameters = ["profileName" => $profileName];
+		$statement->execute($parameters);
+
+		// grab the Profile from mySQL
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileHash"], $row["profileName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($profile);
+	}
 
 
 

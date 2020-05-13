@@ -1,8 +1,8 @@
 <phpunit>
 	<testsuites>
-		<testsuite name="">
-			<!--<file>ProfileTest.php</file>-->
-			<file>ActivityTest.php</file>
+		<testsuite name="date night test">
+			<file>ProfileTest.php</file>
+			<!--<file>ActivityTest.php</file>-->
 			<!--<file>FavoriteTest.php</file>-->
 		</testsuite>
 	</testsuites>
