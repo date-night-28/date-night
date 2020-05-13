@@ -178,7 +178,8 @@ class Activity {
 	public function insert(\PDO $pdo): void {
 
 		// create query template
-		$query = "INSERT INTO activity(activityId, activityImageUrl, activityLat, activityLink, activityLng, activityTitle) VALUES(:activityId, :activityImageUrl, :activityLat, :activityLink, :activityLng, :activityTitle)";
+		$query = "INSERT INTO activity(activityId, activityImageUrl, activityLat, activityLink, activityLng, activityTitle) 
+		VALUES(:activityId, :activityImageUrl, :activityLat, :activityLink, :activityLng, :activityTitle)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
@@ -200,7 +201,8 @@ class Activity {
 	public function update(\PDO $pdo): void {
 
 		// create query template
-		$query = "UPDATE activity SET activityId = :activityId, activityImageUrl = :activityImageUrl, activityLat = :activityLat, activityLink = :activityLink, activityLng = :activityLng, activityTitle = :activityTitle WHERE activityId = :activityId, activityImageUrl = :activityImageUrl, activityLat = :activityLat, activityLink = :activityLink, activityLng = :activityLng, activityTitle = :activityTitle";
+		$query = "UPDATE activity SET activityId = :activityId, activityImageUrl = :activityImageUrl, activityLat = :activityLat, activityLink = :activityLink, activityLng = :activityLng, activityTitle = :activityTitle 
+		WHERE activityId = :activityId";
 		$statement = $pdo->prepare($query);
 
 
@@ -208,33 +210,33 @@ class Activity {
 		$statement->execute($parameters);
 	}
 
-	public function getActivityByActivityId(\PDO $pdo, string $ActivityId){
+	public function getActivityByActivityId(\PDO $pdo, string $activityId){
 		// sanitize the id before searching
 		try {
-			$ActivityId = self::validateUuid($ActivityId);
+			$activityId = self::validateUuid($activityId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT $ActivityId, ActivityImageUrl, ActivityLat, ActivityLink, ActivityLog, ActivityTitle FROM Activity WHERE $ActivityId = :$ActivityId";
+		$query = "SELECT activityId, activityImageUrl, activityLat, activityLink, activityLng, activityTitle FROM activity WHERE activityId = :activityId";
 		$statement = $pdo->prepare($query);
 		// bind the id to the place holder in the template
-		$parameters = ["$ActivityId" => $this->getActivityId()->getBytes()];
+		$parameters = ["activityId" => $activityId->getBytes()];
 		$statement->execute($parameters);
 		// grab the object from mySQL
 		try {
-			$Activity = null;
+			$activity = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$Activity = new Activity($row["$ActivityId"], $row["ActivityImageUrl"], $row["ActivityLat"],
-					$row["ActivityLink"], $row["ActivityLng"], $row["ActivityTitle"]);
+				$activity = new Activity($row["activityId"], $row["activityImageUrl"], $row["activityLat"],
+					$row["activityLink"], $row["activityLng"], $row["activityTitle"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($Activity);
+		return($activity);
 	}
 
 	public static function getActivityByActivityTitle(\PDO $pdo, string $activityTitle) : \SPLFixedArray {
