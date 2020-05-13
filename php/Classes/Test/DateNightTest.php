@@ -1,6 +1,7 @@
 <?php
 
 namespace DateNight28\DateNight\Test;
+
 	use PHPUnit\Framework\TestCase;
 	use PHPUnit\DbUnit\TestCaseTrait;
 	use PHPUnit\DbUnit\DataSet\QueryDataSet;
@@ -9,6 +10,7 @@ namespace DateNight28\DateNight\Test;
 
 // grab the encrypted properties file
 	require_once("/etc/apache2/capstone-mysql/Secrets.php");
+
 
 	require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
