@@ -210,7 +210,7 @@ class Activity {
 		$statement->execute($parameters);
 	}
 
-	public function getActivityByActivityId(\PDO $pdo, string $activityId) : ?Activity{
+	public static function getActivityByActivityId(\PDO $pdo, string $activityId) : ?Activity{
 		// sanitize the id before searching
 		try {
 			$activityId = self::validateUuid($activityId);
@@ -275,40 +275,40 @@ class Activity {
 		return ($activities);
 	}
 
-public static function getActivityByActivityImageUrl(\PDO $pdo, string $activityImageUrl) : \SPLFixedArray {
-	// sanitize the description before searching
-	$activityImageUrl = trim($activityImageUrl);
-	$activityImageUrl = filter_var($activityImageUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	if(empty($activityImageUrl) === true) {
-		throw(new \PDOException("activity Image Url is invalid"));
-	}
-
-	// escape any mySQL wild cards
-	$activityImageUrl = str_replace("_", "\\_", str_replace("%", "\\%", $activityImageUrl));
-
-	// create query template
-	$query = "SELECT activityId, activityImageUrl, activityLat, activityLink, activityLng, activityTitle FROM activity WHERE activityImageUrl LIKE :activityImageUrl";
-	$statement = $pdo->prepare($query);
-
-	// bind the activity title to the place holder in the template
-	$activityImageUrl = "%$activityImageUrl%";
-	$parameters = ["activityImageUrl" => $activityImageUrl];
-	$statement->execute($parameters);
-
-	// build an array of activities
-	$activities = new \SplFixedArray($statement->rowCount());
-	$statement->setFetchMode(\PDO::FETCH_ASSOC);
-	while(($row = $statement->fetch()) !== false) {
-		try {
-			$activity = new Activity($row["activityId"], $row["activityImageUrl"], $row["activityLat"], $row["activityLink"], $row["activityLng"], $row["activityTitle"]);
-			$activities[$activities->key()] = $activity;
-			$activities->next();
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-	}
-	return ($activities);
-	}
+//public static function getActivityByActivityImageUrl(\PDO $pdo, string $activityImageUrl) : \SPLFixedArray {
+//	// sanitize the description before searching
+//	$activityImageUrl = trim($activityImageUrl);
+//	$activityImageUrl = filter_var($activityImageUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+//	if(empty($activityImageUrl) === true) {
+//		throw(new \PDOException("activity Image Url is invalid"));
+//	}
+//
+//	// escape any mySQL wild cards
+//	$activityImageUrl = str_replace("_", "\\_", str_replace("%", "\\%", $activityImageUrl));
+//
+//	// create query template
+//	$query = "SELECT activityId, activityImageUrl, activityLat, activityLink, activityLng, activityTitle FROM activity WHERE activityImageUrl LIKE :activityImageUrl";
+//	$statement = $pdo->prepare($query);
+//
+//	// bind the activity title to the place holder in the template
+//	$activityImageUrl = "%$activityImageUrl%";
+//	$parameters = ["activityImageUrl" => $activityImageUrl];
+//	$statement->execute($parameters);
+//
+//	// build an array of activities
+//	$activities = new \SplFixedArray($statement->rowCount());
+//	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//	while(($row = $statement->fetch()) !== false) {
+//		try {
+//			$activity = new Activity($row["activityId"], $row["activityImageUrl"], $row["activityLat"], $row["activityLink"], $row["activityLng"], $row["activityTitle"]);
+//			$activities[$activities->key()] = $activity;
+//			$activities->next();
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//	}
+//	return ($activities);
+//	}
 }
 
