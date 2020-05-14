@@ -12,7 +12,7 @@ require_once("/etc/apache2/capstone-mysql/Secrets.php");
 use DateNight28\DateNight\Profile;
 
 /**
- * API for Tweet
+ * API for Date night
  *
  * @author Gkephart
  * @version 1.0
@@ -52,7 +52,7 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//gets a post by content
+		//gets a profile by content
 		if(empty($id) === false) {
 			$reply->data = Profile::getProfileByProfileId($pdo, $id);
 
@@ -70,7 +70,6 @@ try {
 		verifyXsrf();
 
 		//enforce the end user has a JWT token
-		//validateJwtHeader();
 
 		//enforce the user is signed in and only trying to edit their own profile
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $id) {
@@ -100,11 +99,6 @@ try {
 			throw(new \InvalidArgumentException ("No profile email present", 405));
 		}
 
-		//profile phone # | if null use the profile phone that is in the database
-		if(empty($requestObject->profilePhone) === true) {
-			$requestObject->ProfilePhone = $profile->getProfilePhone();
-		}
-
 		$profile->setProfileName($requestObject->profileName);
 		$profile->setProfileEmail($requestObject->profileEmail);
 		$profile->update($pdo);
@@ -119,7 +113,6 @@ try {
 		verifyXsrf();
 
 		//enforce the end user has a JWT token
-		//validateJwtHeader();
 
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
