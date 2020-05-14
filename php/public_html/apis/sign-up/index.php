@@ -100,7 +100,7 @@ try {
 
 EOF;
 
-		//create swift email POSSIBLY SWITCH TO MAILGUN
+		//todo create swift email POSSIBLY SWITCH TO MAILGUN
 		$swiftMessage = new Swift_Message();
 
 		// attach the sender to the message
@@ -144,7 +144,7 @@ EOF;
 		 * SwiftMailer supports many different transport methods; SMTP was chosen because it's the most compatible and has the best error handling
 		 * @see http://swiftmailer.org/docs/sending.html Sending Messages - Documentation - SwitftMailer
 		 **/
-
+//todo change over to mailgun
 		//setup smtp
 //		$smtp = new Swift_SmtpTransport(
 //			"localhost", 25);
