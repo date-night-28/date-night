@@ -39,7 +39,7 @@ try {
 
 	// sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileAtHandle = filter_input(INPUT_GET, "profileAtHandle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileName = filter_input(INPUT_GET, "profileName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 
@@ -56,8 +56,8 @@ try {
 		if(empty($id) === false) {
 			$reply->data = Profile::getProfileByProfileId($pdo, $id);
 
-		} else if(empty($profileAtHandle) === false) {
-			$reply->data = Profile::getProfileByProfileAtHandle($pdo, $profileAtHandle);
+		} else if(empty($profileName) === false) {
+			$reply->data = Profile::getProfileByProfileName($pdo, $profileName);
 
 		} else if(empty($profileEmail) === false) {
 
@@ -90,9 +90,9 @@ try {
 		}
 
 
-		//profile at handle
-		if(empty($requestObject->profileAtHandle) === true) {
-			throw(new \InvalidArgumentException ("No profile at handle", 405));
+		//profile name
+		if(empty($requestObject->profileName) === true) {
+			throw(new \InvalidArgumentException ("No profile name", 405));
 		}
 
 		//profile email is a required field
@@ -105,9 +105,8 @@ try {
 			$requestObject->ProfilePhone = $profile->getProfilePhone();
 		}
 
-		$profile->setProfileAtHandle($requestObject->profileAtHandle);
+		$profile->setProfileName($requestObject->profileName);
 		$profile->setProfileEmail($requestObject->profileEmail);
-		$profile->setProfilePhone($requestObject->profilePhone);
 		$profile->update($pdo);
 
 		// update reply
