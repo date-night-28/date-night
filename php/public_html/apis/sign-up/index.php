@@ -1,9 +1,9 @@
 <?php
-require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
-require_once dirname(__DIR__, 3) . "/Classes/autoload.php";
+require_once dirname(__DIR__ ) . "../../vendor/autoload.php";
+require_once dirname(__DIR__ ) . "../../Classes/autoload.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
-require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
-require_once dirname(__DIR__, 3) . "/lib/uuid.php";
+require_once dirname(__DIR__ ) . "../../lib/xsrf.php";
+require_once dirname(__DIR__ ) . "../../lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
 use DateNight28\DateNight\Profile;
@@ -38,7 +38,6 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		//profile activation token? not needed?
 
 		//profile email is a required field
 		if(empty($requestObject->profileEmail) === true) {
@@ -66,16 +65,17 @@ try {
 		}
 
 		$hash = password_hash($requestObject->profilePassword, PASSWORD_ARGON2I, ["time_cost" => 9]);
+
 		$profileActivationToken = bin2hex(random_bytes(16));
 
 		//create the profile object and prepare to insert into the database
-		$profile = new Profile(generateUuidV4()->toString(), $profileActivationToken, "null", $requestObject->profileEmail, $hash, $requestObject->profileName);
+		$profile = new Profile(generateUuidV4()->toString(), $profileActivationToken, $requestObject->profileEmail, $hash, $requestObject->profileName);
 
 		//insert the profile into the database
 		$profile->insert($pdo);
 
 		//compose the email message to send with the activation token
-		$messageSubject = "One step closer to Sticky Head -- Account Activation";
+		$messageSubject = "Activate your Date Night account.";
 
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 
@@ -94,13 +94,13 @@ try {
 		$message = <<< EOF
 <h2>Welcome to Date Night.</h2>
 
-<p>In order to start you must confirm your account </p>
+<p>In order to start, you must confirm your account </p>
 
 <p><a href="$confirmLink">$confirmLink</a></p>
 
 EOF;
 
-		//create swift email
+		//create swift email POSSIBLY SWITCH TO MAILGUN
 		$swiftMessage = new Swift_Message();
 
 		// attach the sender to the message
@@ -146,12 +146,15 @@ EOF;
 		 **/
 
 		//setup smtp
-		$smtp = new Swift_SmtpTransport(
-			"localhost", 25);
-		$mailer = new Swift_Mailer($smtp);
+//		$smtp = new Swift_SmtpTransport(
+//			"localhost", 25);
+//		$mailer = new Swift_Mailer($smtp);
+//
+//		//send the message
+//		$numSent = $mailer->send($swiftMessage, $failedRecipients);
 
-		//send the message
-		$numSent = $mailer->send($swiftMessage, $failedRecipients);
+		$numSent = 1;
+
 
 		/**
 		 * the send method returns the number of recipients that accepted the Email

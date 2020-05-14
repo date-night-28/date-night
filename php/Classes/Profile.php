@@ -63,21 +63,21 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for account validation token
+	 * accessor method for account activation token
 	 *
-	 * @return string value of validation token
+	 * @return string value of activation token
 	 */
 	public function getProfileActivationToken(): ?string {
 		return ($this->profileActivationToken);
 	}
 
 	/**
-	 * mutator method for account validation Token
+	 * mutator method for account activation Token
 	 *
 	 * @param string $newProfileActivationToken
 	 * @throws \InvalidArgumentException if the token is not a string or insecure
 	 * @throws \RangeException if the token is not exactly 32 characters
-	 * @throws \TypeError if the validation token is not a string
+	 * @throws \TypeError if the activation token is not a string
 	 *
 	 */
 	public function setProfileActivationToken(?string $newProfileActivationToken): void {
@@ -88,12 +88,12 @@ class Profile {
 
 		$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
 		if(ctype_xdigit($newProfileActivationToken) === false) {
-			throw(new\RangeException("user validation is not valid"));
+			throw(new\RangeException("user activation is not valid"));
 		}
 
-		//make sure user validation token is only 32 characters
+		//make sure user activation token is only 32 characters
 		if(strlen($newProfileActivationToken) !== 32) {
-			throw(new\RangeException("user validation token has to be 32"));
+			throw(new\RangeException("user activation token has to be 32"));
 		}
 		$this->profileActivationToken = $newProfileActivationToken;
 	}
@@ -302,7 +302,7 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 	}
 
 	/**
-	 * get the profile by profile validation token
+	 * get the profile by profile activation token
 	 *
 	 * @param string $profileActivationToken
 	 * @param \PDO object $pdo
@@ -312,17 +312,17 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 	 **/
 	public
 	static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
-		//make sure validation token is in the right format and that it is a string representation of a hexadecimal
+		//make sure activation token is in the right format and that it is a string representation of a hexadecimal
 		$profileActivationToken = trim($profileActivationToken);
 		if(ctype_xdigit($profileActivationToken) === false) {
-			throw(new \InvalidArgumentException("profile validation token is empty or in the wrong format"));
+			throw(new \InvalidArgumentException("profile activation token is empty or in the wrong format"));
 		}
 
 		//create the query template
 		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileName FROM profile WHERE profileActivationToken = :profileActivationToken";
 		$statement = $pdo->prepare($query);
 
-		// bind the profile validation token to the placeholder in the template
+		// bind the profile activation token to the placeholder in the template
 		$parameters = ["profileActivationToken" => $profileActivationToken];
 		$statement->execute($parameters);
 
