@@ -81,6 +81,28 @@ class FavoriteTest extends DateNightTest {
 	}
 
 
+	/**
+	 * test inserting a Favorite and regrabbing it from mySQL
+	 **/
+	public function testGetValidFavoriteByFavoriteActivityIdAndFavoriteProfileId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+
+		// create a new Like and insert to into mySQL
+		$favorite = new Favorite ($this->profile->getProfileId()->toString(), $this->activity->getActivityId()->toString(), $this->VALID_FAVORITE_DATE);
+		$favorite->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoFavorite = Favorite::getFavoriteByFavoriteActivityIdAndFavoriteProfileId($this->getPDO(), $favorite->getFavoriteProfileId(), $favorite->getFavoriteActivityId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertEquals($pdoFavorite->getFavoriteProfileId(), $favorite->getFavoriteProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteActivityId(), $favorite->getFavoriteActivityId());
+
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoFavorite->getFavoriteDate()->getTimestamp(), $favorite->getFavoriteDate()->getTimestamp());
+	}
+
+
 		/**
 		 * test grabbing a Favorite by Activity id
 		 **/
