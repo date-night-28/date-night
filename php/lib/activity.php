@@ -1,42 +1,38 @@
 <?php
-/**phase2
- *
- * PDO-METHODS
- * Write these in the Activity.php file.
- * Write and Document an insert statement method
- * Write and Document an update statement method
- * Write and Document a delete statement method.
- * Write and document a getFooByBar method that returns a single object
- * Write and document a getFooByBar method that returns a full array
- */
+require_once(dirname(__DIR__, 1) . "/Classes/Activity.php");
+require_once("uuid.php");
+require_once("configs.php");
 
+use DateNight28\DateNight\Activity;
 
-require_once dirname(__DIR__, 1) . "Classes/autoload.php";
-//require_once("/etc/apache2/capstone-mysql/Secrets.php");
-//require("uuid.php");
+// The pdo object has been created for you.
+require_once("/etc/apache2/capstone-mysql/Secrets.php");
+$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort28/dncrew.ini");
+$pdo = $secrets->getPdoObject();
 
-//$secrets = new Secrets("/etc/apache2/capstone-mysql/cohort28/dncrew.ini”);
-//$pdo = $secrets->getPdoObject();
+//cURL - https://www.php.net/manual/en/function.curl-setopt.php
+//$yelpToken is in a separate configs.php file that is not committed to github.
+$authorization = "Authorization: Bearer " . $yelpToken;
 
-use DateNight28\DateNight\{Activity};
+for ($offset = 0; $offset < 100; $offset = $offset + 20) {
 
-//fix url code
+	$ch = curl_init('https://api.yelp.com/v3/businesses/search?term=restaurants&location=NM&offset=' . $offset);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $authorization));
+	curl_setopt($ch, CURLOPT_HTTPGET, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$result = curl_exec($ch);
+	curl_close($ch);
+	$businesses = json_decode($result)->businesses;
 
-$activityId = "461e6eb7-ec9e-4c29-9be8-7ccab29f3185";
-$activityImageUrl = "";
-$activityLat = "";
-$activityLink = "";
-$activityLng = "";
-$activityTitle ="";
+	foreach ($businesses as $business) {
+		echo($business->id . "<br>");
+		echo($business->name . "<br>");
+		echo($business->url . "<br>");
+		echo($business->coordinates->latitude . "<br>");
+		echo($business->coordinates->longitude . "<br>");
+		echo "<br>";
 
-
-try {
-	$activity = new Activity($activityId, $activityImageUrl, $activityLat, $activityLink, $activityLng, $activityTitle);
-	echo "<h1>" . $activity->getActivityTitle() . "</h1>";
+		$bus = new Business(generateUuidV4(), $business->name, $business->url, $business->id, $business->coordinates->latitude, $business->coordinates->longitude);
+		//$bus->insert($pdo);
+	}
 }
-
-catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-	$exceptionType = get_class($exception);
-	var_dump($exception->getLine());
-}
-

@@ -1,4 +1,4 @@
 .DS_Store
 /.idea
 /php/vendor
-php/lib/configs.php
+/php/lib/yelpconfigs.php
