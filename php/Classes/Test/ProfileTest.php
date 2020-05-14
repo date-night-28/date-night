@@ -155,7 +155,7 @@ class ProfileTest extends DateNightTest {
 
 
 	/**
-	 * test grabbing a profile by its activation
+	 * test grabbing a profile by its validation
 	 */
 	public function testGetValidProfileByActivationToken() : void {
 		// count the number of rows and save it for later
