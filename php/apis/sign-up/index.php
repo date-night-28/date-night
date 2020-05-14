@@ -26,7 +26,7 @@ $reply->data = null;
 
 try {
 	//grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/DateNight28/dncrew.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort28/dncrew.ini");
 	$pdo = $secrets->getPdoObject();
 
 	//determine which HTTP method was used
