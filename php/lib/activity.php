@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__DIR__, 1) . "/Classes/Activity.php");
 require_once("uuid.php");
-require_once("configs.php");
+require_once("yelpconfigs.php");
 
 use DateNight28\DateNight\Activity;
 
@@ -32,7 +32,7 @@ for ($offset = 0; $offset < 100; $offset = $offset + 20) {
 		echo($business->coordinates->longitude . "<br>");
 		echo "<br>";
 
-		$bus = new Business(generateUuidV4(), $business->name, $business->url, $business->id, $business->coordinates->latitude, $business->coordinates->longitude);
-		//$bus->insert($pdo);
+		$activity = new Activity(generateUuidV4()->toString(), $business->image_url, $business->coordinates->latitude, $business->url, $business->coordinates->longitude, $business->name);
+		$activity->insert($pdo);
 	}
 }

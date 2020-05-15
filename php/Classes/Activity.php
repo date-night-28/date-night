@@ -167,8 +167,8 @@ class Activity {
 			throw(new \InvalidArgumentException("Activity Title is empty or insecure"));
 		}
 		//Just truncate and issue warning.
-		if(strlen($newActivityTitle) > 50) {
-			throw(new \RangeException("Activity Title is longer than 50 characters"));
+		if(strlen($newActivityTitle) > 128) {
+			throw(new \RangeException("Activity Title is longer than 128 characters"));
 		}
 
 		$this->activityTitle = $newActivityTitle;

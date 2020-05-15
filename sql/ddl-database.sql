@@ -17,7 +17,7 @@ CREATE TABLE activity(
 	activityLat DECIMAL(9,6) NOT NULL,
 	activityLink VARCHAR(255) NOT NULL,
 	activityLng DECIMAL(9,6) NOT NULL,
-	activityTitle VARCHAR(50) NOT NULL,
+	activityTitle VARCHAR(128) NOT NULL,
 	INDEX (activityId),
 	PRIMARY KEY(activityId)
 );
@@ -31,3 +31,5 @@ CREATE TABLE favorite(
 	FOREIGN KEY(favoriteProfileId) REFERENCES profile(profileId),
 	FOREIGN KEY(favoriteActivityId) REFERENCES activity(activityId)
 );
+
+alter table activity modify activityTitle varchar(128) not null;
