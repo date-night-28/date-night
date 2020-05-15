@@ -8,10 +8,10 @@ require_once dirname(__DIR__, 3) . "/lib/jwt.php";
 require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 
 
-use UssHopper\DataDesign\Like;
+use DateNight28\DateNight\Favorite;
 
 /**
- * Api for the Like class
+ * Api for the Favorite class
  *
  * @author george kephart
  */
@@ -28,7 +28,7 @@ $reply->data = null;
 
 try {
 
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort28/dncrew.ini");
 	$pdo = $secrets->getPdoObject();
 
 	//determine which HTTP method was used
@@ -36,27 +36,28 @@ try {
 
 
 	//sanitize the search parameters
-	$likeProfileId = $id = filter_input(INPUT_GET, "likeProfileId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
-	$likeTweetId = $id = filter_input(INPUT_GET, "likeTweetId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
+	$FavoriteProfileId = $id = filter_input(INPUT_GET, "favoriteProfileId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
+	$FavoriteActivityId = $id = filter_input(INPUT_GET, "favoriteActivityId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//gets  a specific like associated based on its composite key
-		if ($likeProfileId !== null && $likeTweetId !== null) {
-			$like = Like::getLikeByLikeTweetIdAndLikeProfileId($pdo, $likeProfileId, $likeTweetId);
+//todo check on order of profile/activity
+		//gets  a specific favorite associated based on its composite key
+		if ($favoriteProfileId !== null && $favoriteActivityId !== null) {
+			$favorite = Favorite::getFavoriteByFavoriteActivityIdAndFavoriteProfileId($pdo, $favoriteProfileId, $favoriteActivityId);
 
 
-			if($like!== null) {
-				$reply->data = $like;
+			if($favorite!== null) {
+				$reply->data = $favorite;
 			}
 			//if none of the search parameters are met throw an exception
-		} else if(empty($likeProfileId) === false) {
-			$reply->data = Like::getLikeByLikeProfileId($pdo, $likeProfileId)->toArray();
-			//get all the likes associated with the tweetId
-		} else if(empty($likeTweetId) === false) {
-			$reply->data = Like::getLikeByLikeTweetId($pdo, $likeTweetId)->toArray();
+		} else if(empty($favorite) === false) {
+			$reply->data = Favorite::getFavoriteByFavoriteProfileId($pdo, $favoriteProfileId)->toArray();
+			//get all the favorites associated with the activity
+		} else if(empty($favoriteActivityId) === false) {
+			$reply->data = Favorite::getFavoriteByFavoriteActivityId($pdo, $favoriteActivityId)->toArray();
 		} else {
 			throw new InvalidArgumentException("incorrect search parameters ", 404);
 		}
@@ -67,16 +68,16 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		if(empty($requestObject->likeProfileId) === true) {
-			throw (new \InvalidArgumentException("No Profile linked to the Like", 405));
+		if(empty($requestObject->favoriteProfileId) === true) {
+			throw (new \InvalidArgumentException("No Profile linked to the favorite", 405));
 		}
 
-		if(empty($requestObject->likeTweetId) === true) {
-			throw (new \InvalidArgumentException("No tweet linked to the Like", 405));
+		if(empty($requestObject->favoriteActivityId) === true) {
+			throw (new \InvalidArgumentException("No activity linked to the favorite", 405));
 		}
 
-		if(empty($requestObject->likeDate) === true) {
-			$requestObject->LikeDate =  date("y-m-d H:i:s");
+		if(empty($requestObject->favoriteDate) === true) {
+			$requestObject->FavoriteeDate =  date("y-m-d H:i:s");
 		}
 
 
@@ -86,18 +87,17 @@ try {
 			verifyXsrf();
 
 			//enforce the end user has a JWT token
-			//validateJwtHeader();
 
 			// enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
-				throw(new \InvalidArgumentException("you must be logged in too like posts", 403));
+				throw(new \InvalidArgumentException("you must be logged in too favorite an activity", 403));
 			}
 
 			validateJwtHeader();
 
-			$like = new Like($_SESSION["profile"]->getProfileId(), $requestObject->likeTweetId);
-			$like->insert($pdo);
-			$reply->message = "liked tweet successful";
+			$favorite = new Favorite($_SESSION["profile"]->getProfileId(), $requestObject->favoriteActivityId);
+			$favorite->insert($pdo);
+			$reply->message = "Favorited activity was successful";
 
 
 		} else if($method === "PUT") {
@@ -108,24 +108,24 @@ try {
 			//enforce the end user has a JWT token
 			validateJwtHeader();
 
-			//grab the like by its composite key
-			$like = Like::getLikeByLikeTweetIdAndLikeProfileId($pdo, $requestObject->likeProfileId, $requestObject->likeTweetId);
-			if($like === null) {
-				throw (new RuntimeException("Like does not exist"));
+			//grab the favorite by its composite key
+			$favorite = Favorite::getFavoriteByFavoriteActivityIdAndFavoriteProfileId($pdo, $requestObject->favoriteProfileId, $requestObject->favoriteActivityId);
+			if($favorite === null) {
+				throw (new RuntimeException("Favorite does not exist"));
 			}
 
-			//enforce the user is signed in and only trying to edit their own like
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $like->getLikeProfileId()->toString()) {
-				throw(new \InvalidArgumentException("You are not allowed to delete this tweet", 403));
+			//enforce the user is signed in and only trying to edit their own favorite
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $favorite->getFavoriteProfileId()->toString()) {
+				throw(new \InvalidArgumentException("You are not allowed to delete this favorite", 403));
 			}
 
 			//validateJwtHeader();
 
 			//preform the actual delete
-			$like->delete($pdo);
+			$favorite->delete($pdo);
 
 			//update the message
-			$reply->message = "Like successfully deleted";
+			$reply->message = "Favorite successfully deleted";
 		}
 
 		// if any other HTTP request is sent throw an exception
