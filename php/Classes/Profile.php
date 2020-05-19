@@ -7,7 +7,7 @@ require_once(dirname(__DIR__) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
 
-class Profile {
+class Profile implements \JsonSerializable {
 	use ValidateUuid;
 
 	/**
@@ -440,9 +440,9 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 
 		$fields["profileId"] = $this->profileId->toString();
 		unset($fields["profileActivationToken"]);
-		$fields["profileEmail"] = $this->profileEmail->toString();
+		$fields["profileEmail"] = $this->profileEmail;
 		unset($fields["profileHash"]);
-		$fields["profileName"] = $this->profileName->toString();
+		$fields["profileName"] = $this->profileName;
 
 		return ($fields);
 
