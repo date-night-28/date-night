@@ -14,25 +14,38 @@ $pdo = $secrets->getPdoObject();
 //$yelpToken is in a separate configs.php file that is not committed to github.
 $authorization = "Authorization: Bearer " . $yelpToken;
 
-for ($offset = 0; $offset < 100; $offset = $offset + 20) {
+$searchTerms = ["activity", "restaurants", "events"];
 
-	$ch = curl_init('https://api.yelp.com/v3/businesses/search?term=restaurants&location=NM&offset=' . $offset);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $authorization));
-	curl_setopt($ch, CURLOPT_HTTPGET, true);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$result = curl_exec($ch);
-	curl_close($ch);
-	$businesses = json_decode($result)->businesses;
+foreach ($searchTerms as $searchTerm) {
 
-	foreach ($businesses as $business) {
-		echo($business->id . "<br>");
-		echo($business->name . "<br>");
-		echo($business->url . "<br>");
-		echo($business->coordinates->latitude . "<br>");
-		echo($business->coordinates->longitude . "<br>");
-		echo "<br>";
 
-		$activity = new Activity(generateUuidV4()->toString(), $business->image_url, $business->coordinates->latitude, $business->url, $business->coordinates->longitude, $business->name);
-		$activity->insert($pdo);
-	}
+	for($offset = 0; $offset < 100; $offset = $offset + 20) {
+
+		$ch = curl_init('https://api.yelp.com/v3/businesses/search?term=' . $searchTerm .'&location=NM&offset=' . $offset);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $authorization));
+		curl_setopt($ch, CURLOPT_HTTPGET, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($ch);
+		curl_close($ch);
+
+//		if (!json_decode($result)->error) {
+
+
+		$businesses = json_decode($result)->businesses;
+
+		foreach($businesses as $business) {
+			if (!($business->coordinates->latitude == null)) {
+				echo($business->id . "<br>");
+				echo($business->name . "<br>");
+				echo($business->url . "<br>");
+				echo($business->coordinates->latitude . "<br>");
+				echo($business->coordinates->longitude . "<br>");
+				echo "<br>";
+
+				$activity = new Activity(generateUuidV4()->toString(), $business->image_url, $business->coordinates->latitude, $business->url, $business->coordinates->longitude, $business->name);
+				$activity->insert($pdo);
+			}
+		}
+		}
+//	}
 }
