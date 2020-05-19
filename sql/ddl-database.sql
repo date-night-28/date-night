@@ -1,5 +1,7 @@
 ALTER DATABASE cap28_datenight CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
+DROP TABLE IF EXISTS favorite;
+DROP TABLE IF EXISTS activity;
+DROP TABLE IF EXISTS profile;
 CREATE TABLE profile(
 	profileId BINARY(16) NOT NULL,
 	profileActivationToken CHAR(32),

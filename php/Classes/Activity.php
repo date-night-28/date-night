@@ -310,5 +310,19 @@ class Activity implements \JsonSerializable {
 //	}
 //	return ($activities);
 //	}
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() : array {
+		$fields = get_object_vars($this);
+
+		$fields["activityId"] = $this->activityId->toString();
+
+		return ($fields);
+
+	}
+
 }
 
