@@ -275,6 +275,28 @@ class Activity implements \JsonSerializable {
 		return ($activities);
 	}
 
+	public static function getAllActivities(\PDO $pdo) : \SPLFixedArray {
+		// create query template
+		$query = "SELECT activityId, activityImageUrl, activityLat, activityLink, activityLng, activityTitle FROM activity";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of activities
+		$activities = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$activity = new Activity($row["activityId"], $row["activityImageUrl"], $row["activityLat"], $row["activityLink"], $row["activityLng"], $row["activityTitle"]);
+				$activities[$activities->key()] = $activity;
+				$activities->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($activities);
+	}
+
 //public static function getActivityByActivityImageUrl(\PDO $pdo, string $activityImageUrl) : \SPLFixedArray {
 //	// sanitize the description before searching
 //	$activityImageUrl = trim($activityImageUrl);
