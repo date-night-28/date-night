@@ -1,7 +1,7 @@
 import React from "react"
 import {Form} from "react-bootstrap"
 import Jumbotron from 'react-bootstrap/Jumbotron'
-import Signup from "../components/css/signup.css"
+import Signup from "../shared/css/signup.css"
 
 
 
