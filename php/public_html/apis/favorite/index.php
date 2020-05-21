@@ -69,7 +69,7 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		if(empty($requestObject->favoriteProfileId) === true) {
-			throw (new \InvalidArgumentException("No Profile linked to the favorite", 405));
+			throw (new \InvalidArgumentException("No profile linked to the favorite", 405));
 		}
 
 		if(empty($requestObject->favoriteActivityId) === true) {

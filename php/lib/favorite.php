@@ -2,7 +2,7 @@
 /**phase2
  *
  * PDO-METHODS
- * Write these in the Profile.php file.
+ * Write these in the profile.php file.
  * Write and Document an insert statement method
  * Write and Document an update statement method
  * Write and Document a delete statement method.

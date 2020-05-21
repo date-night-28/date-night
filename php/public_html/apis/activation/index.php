@@ -66,7 +66,7 @@ try{
 			}
 		} else {
 			//throw an exception if the activation token does not exist
-			throw(new RuntimeException("Profile with this activation code does not exist", 404));
+			throw(new RuntimeException("profile with this activation code does not exist", 404));
 		}
 	} else {
 		//throw an exception if the HTTP request is not a GET

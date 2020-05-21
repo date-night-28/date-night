@@ -202,7 +202,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * inserts this Profile into mySQL
+	 * inserts this profile into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -220,7 +220,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * deletes this Profile from mySQL
+	 * deletes this profile from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -238,7 +238,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * updates this Profile from mySQL
+	 * updates this profile from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -259,11 +259,11 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 	}
 
 	/**
-	 * gets the Profile by profile id
+	 * gets the profile by profile id
 	 *
 	 * @param \PDO $pdo $pdo PDO connection object
 	 * @param  $profileId profile Id to search for (the data type should be mixed/not specified)
-	 * @return Profile|null Profile or null if not found
+	 * @return Profile|null profile or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
@@ -284,7 +284,7 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 		$parameters = ["profileId" => $profileId->getBytes()];
 		$statement->execute($parameters);
 
-		// grab the Profile from mySQL
+		// grab the profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -306,7 +306,7 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 	 *
 	 * @param string $profileActivationToken
 	 * @param \PDO object $pdo
-	 * @return Profile|null Profile or null if not found
+	 * @return Profile|null profile or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -326,7 +326,7 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 		$parameters = ["profileActivationToken" => $profileActivationToken];
 		$statement->execute($parameters);
 
-		// grab the Profile from mySQL
+		// grab the profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -343,11 +343,11 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 	}
 
 	/**
-	 * gets the Profile by email
+	 * gets the profile by email
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileEmail email to search for
-	 * @return Profile|null Profile or null if not found
+	 * @return Profile|null profile or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -369,7 +369,7 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 		$parameters = ["profileEmail" => $profileEmail];
 		$statement->execute($parameters);
 
-		// grab the Profile from mySQL
+		// grab the profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -387,11 +387,11 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 
 
 	/**
-	 * gets the Profile by name
+	 * gets the profile by name
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileName name to search for
-	 * @return Profile|null Profile or null if not found
+	 * @return Profile|null profile or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -413,7 +413,7 @@ profileHash = :profileHash, profileName = :profileName WHERE profileId = :profil
 		$parameters = ["profileName" => $profileName];
 		$statement->execute($parameters);
 
-		// grab the Profile from mySQL
+		// grab the profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);

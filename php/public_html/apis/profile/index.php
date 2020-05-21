@@ -85,7 +85,7 @@ try {
 		//retrieve the profile to be updated
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
-			throw(new RuntimeException("Profile does not exist", 404));
+			throw(new RuntimeException("profile does not exist", 404));
 		}
 
 
@@ -104,7 +104,7 @@ try {
 		$profile->update($pdo);
 
 		// update reply
-		$reply->message = "Profile information updated";
+		$reply->message = "profile information updated";
 
 
 	} elseif($method === "DELETE") {
@@ -116,7 +116,7 @@ try {
 
 		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
-			throw (new RuntimeException("Profile does not exist"));
+			throw (new RuntimeException("profile does not exist"));
 		}
 
 		//enforce the user is signed in and only trying to edit their own profile
@@ -128,7 +128,7 @@ try {
 
 		//delete the post from the database
 		$profile->delete($pdo);
-		$reply->message = "Profile Deleted";
+		$reply->message = "profile Deleted";
 
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP request", 400));

@@ -52,18 +52,18 @@ class ProfileTest extends DateNightTest {
 	}
 
 	/**
-	 * test inserting a Profile, editing it, and then updating it
+	 * test inserting a profile, editing it, and then updating it
 	 **/
 	public function testUpdateValidProfile() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
-		// create a new Profile and insert to into mySQL
+		// create a new profile and insert to into mySQL
 		$profileId = generateUuidV4()->toString();
 		$profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, $this->VALID_PROFILE_EMAIL, $this->VALID_PROFILE_HASH, $this->VALID_PROFILE_NAME);
 		$profile->insert($this->getPDO());
 
-		// edit the Profile and update it in mySQL
+		// edit the profile and update it in mySQL
 		$profile->setProfileName($this->VALID_PROFILE_NAME . "more name");
 		$profile->update($this->getPDO());
 
@@ -79,22 +79,22 @@ class ProfileTest extends DateNightTest {
 
 
 	/**
-	 * test creating a Profile and then deleting it
+	 * test creating a profile and then deleting it
 	 **/
 	public function testDeleteValidProfile(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
-		// create a new Profile and insert to into mySQL
+		// create a new profile and insert to into mySQL
 		$profileId = generateUuidV4()->toString();
 		$profile = new Profile($profileId, $this->VALID_ACTIVATION_TOKEN, $this->VALID_PROFILE_EMAIL, $this->VALID_PROFILE_HASH, $this->VALID_PROFILE_NAME);
 		$profile->insert($this->getPDO());
 
-		// delete the Profile from mySQL
+		// delete the profile from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$profile->delete($this->getPDO());
 
-		// grab the data from mySQL and enforce the Profile does not exist
+		// grab the data from mySQL and enforce the profile does not exist
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId()->toString());
 		$this->assertNull($pdoProfile);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
@@ -102,7 +102,7 @@ class ProfileTest extends DateNightTest {
 
 
 	/**
-	 * test inserting a Profile and regrabbing it from mySQL
+	 * test inserting a profile and regrabbing it from mySQL
 	 **/
 	public function testGetValidProfileByProfileId(): void {
 		// count the number of rows and save it for later
@@ -124,7 +124,7 @@ class ProfileTest extends DateNightTest {
 
 
 	/**
-	 * test grabbing a Profile by email
+	 * test grabbing a profile by email
 	 **/
 	public function testGetValidProfileByEmail() : void {
 		// count the number of rows and save it for later
@@ -144,7 +144,7 @@ class ProfileTest extends DateNightTest {
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILE_NAME);
 	}
 	/**
-	 * test grabbing a Profile by an email that does not exists
+	 * test grabbing a profile by an email that does not exists
 	 **/
 	public function testGetInvalidProfileByEmail() : void {
 		// grab an email that does not exist
@@ -175,7 +175,7 @@ class ProfileTest extends DateNightTest {
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILE_NAME);
 	}
 	/**
-	 * test grabbing a Profile by an email that does not exists
+	 * test grabbing a profile by an email that does not exists
 	 **/
 	public function testGetInvalidProfileActivation() : void {
 		// grab an email that does not exist
@@ -186,7 +186,7 @@ class ProfileTest extends DateNightTest {
 
 
 	/**
-	 * test grabbing a Profile that does not exist
+	 * test grabbing a profile that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileId(): void {
 
@@ -215,7 +215,7 @@ class ProfileTest extends DateNightTest {
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILE_NAME);
 	}
 	/**
-	 * test grabbing a Profile by name that does not exist
+	 * test grabbing a profile by name that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileName(): void {
 		// grab an at name that does not exist

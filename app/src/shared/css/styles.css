@@ -2,8 +2,9 @@
 	flex-direction: row;
 }
 
-
-
+.cardHome{
+	flex-direction: column;
+}
 
 
 footer{

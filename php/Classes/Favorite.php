@@ -18,7 +18,7 @@ private $favoriteDate;
 	/**
 	 * constructor for this Favorite
 	 *
-	 * @param string|Uuid $newFavoriteProfileId id of the parent Profile
+	 * @param string|Uuid $newFavoriteProfileId id of the parent profile
 	 * @param string|Uuid $newFavoriteActivityId id of the parent Activity
 	 * @param \DateTime|null $newFavoriteDate date the activity was marked favorite (or null for current time)
 	 * @throws \InvalidArgumentException if data types are not valid
