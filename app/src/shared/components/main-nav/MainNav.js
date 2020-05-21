@@ -19,8 +19,8 @@ export const MainNav = (props) => {
 				</LinkContainer>
 				<SignUpModal/>
 				<SignInModal/>
-				<LinkContainer exact to="/image"
-				><Nav.Link>image</Nav.Link>
+				<LinkContainer exact to="/likes"
+				><Nav.Link>likes</Nav.Link>
 				</LinkContainer>
 			</Nav>
 		</Navbar>
