@@ -8,14 +8,14 @@ import {FourOhFour} from "./pages/FourOhFour";
 import {Footer} from "./pages/Footer";
 import {MainNav} from "./shared/components/main-nav/MainNav";
 import {Profile} from "./shared/components/main-nav/Profile/Profile";
-import {Likes} from "./shared/components/main-nav/Likes/Likes";
+import {Favorites} from "./shared/components/main-nav/Likes/Favorites";
 
 const Routing = () => (
 	<>
 		<BrowserRouter>
 			<MainNav/>
 			<Profile/>
-			<Likes/>
+			<Favorites/>
 			<Switch>
 				<Route exact path="/" component={Home}/>
 				<Route component={FourOhFour}/>

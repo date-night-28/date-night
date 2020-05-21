@@ -19,8 +19,8 @@ export const MainNav = (props) => {
 				</LinkContainer>
 				<SignUpModal/>
 				<SignInModal/>
-				<LinkContainer exact to="/likes"
-				><Nav.Link>likes</Nav.Link>
+				<LinkContainer exact to="/Favorites"
+				><Nav.Link>favorites</Nav.Link>
 				</LinkContainer>
 			</Nav>
 		</Navbar>
