@@ -1,0 +1,4 @@
+<?php
+
+
+$yelpToken = "6SyTS8XaWJ8-w_z0yoGz7AF7K35nPUbW-Gkp6qsCBYLLEo0Zrrw3mZyuxn316JS4Bnvt8FtlWp7XS0_vQDkxFAGi1sZDqAdpd1N7OCToOjaYi6j16ciYguC3csq9XnYx";
