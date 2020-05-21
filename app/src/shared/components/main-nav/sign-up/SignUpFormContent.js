@@ -96,7 +96,7 @@ export const SignUpFormContent = (props) => {
 
 
 				<div className="form-group">
-					<label htmlFor="profileHandle">@Handle</label>
+					<label htmlFor="profileName">Name</label>
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
@@ -105,52 +105,24 @@ export const SignUpFormContent = (props) => {
 						</div>
 						<input
 							className="form-control"
-							id="profileHandle"
+							id="profileName"
 							type="text"
-							value={values.profileAtHandle}
-							placeholder="@Handle"
+							value={values.profileName}
+							placeholder="Name"
 							onChange={handleChange}
 							onBlur={handleBlur}
 
 						/>
 					</div>
 					{
-						errors.profileAtHandle && touched.profileAtHandle && (
+						errors.profileName && touched.profileName && (
 							<div className="alert alert-danger">
-								{errors.profileAtHandle}
+								{errors.profileName}
 							</div>
 						)
 					}
 				</div>
 
-
-				<div className="form-group">
-					<label htmlFor="profilePhone">Phone Number</label>
-					<div className="input-group">
-						<div className="input-group-prepend">
-							<div className="input-group-text">
-								<FontAwesomeIcon icon="phone"/>
-							</div>
-						</div>
-						<input
-							className="form-control"
-							id="profilePhone"
-							type="text"
-							value={values.profilePhone}
-							placeholder="Enter email"
-							onChange={handleChange}
-							onBlur={handleBlur}
-						/>
-					</div>
-					{
-						errors.profilePhone && touched.profilePhone && (
-							<div className="alert alert-danger">
-								{errors.profilePhone}
-							</div>
-						)
-
-					}
-				</div>
 				<div className="form-group">
 					<button className="btn btn-primary mb-2" type="submit">Submit</button>
 					<button
@@ -167,9 +139,9 @@ export const SignUpFormContent = (props) => {
 			{console.log(
 				submitStatus
 			)}
-			{
-				status && (<div className={status.type}>{status.message}</div>)
-			}
+			{/*{*/}
+			{/*	status && (<div className={status.type}>{status.message}</div>)*/}
+			{/*}*/}
 		</>
 
 
