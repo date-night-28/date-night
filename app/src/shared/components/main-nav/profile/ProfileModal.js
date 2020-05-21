@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import {Modal} from "react-bootstrap";
-import {SignInForm} from "./ProfileForm";
+import {ProfileForm} from "./ProfileForm";
 import {ProfileFormContent} from "./ProfileFormContent";
 
 
