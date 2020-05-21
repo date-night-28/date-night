@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Conceptual Model</title>
+</head>
+<body>
+	<h1>Conceptual Model</h1>
+		<p><strong>Entities and Attributes:</strong></p>
+		<p>User</p>
+		<ul>
+			<li>userID</li>
+			<li>userActivationToken</li>
+			<li>userEmail</li>
+			<li>userHash</li>
+			<li>userName</li>
+		</ul>
+		<p>Activity</p>
+		<ul>
+			<li>activityId</li>
+			<li>activityCategory</li>
+			<li>activityContent</li>
+			<li>activityLat</li>
+			<li>activityLink</li>
+			<li>activityLng</li>
+			<li>activityTitle</li>
+		</ul>
+		<p>Like</p>
+		<ul>
+			<li>likeUserId</li>
+			<li>likeActivityId</li>
+			<li>likeDate</li>
+		</ul>
+		<p><strong>Relations</strong></p>
+		<ul>
+			<li>many users to one activity</li>
+			<li>many Likes to one activity </li>
+			<li>one user to many likes</li>
+		</ul>
+	<h2><a href="./images/Date%20Night%20ERD%20(2).png" >Entity Relationship Diagram </a></h2>
+</body>
+</html>
