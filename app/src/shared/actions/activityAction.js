@@ -10,7 +10,7 @@ export const getActivityByActivityId = (id) => async (dispatch) => {
 	dispatch({type: "GET_ACTIVITY_BY_ACTIVITY_ID", payload: data})
 };
 
-export const getActivityByActivityTitle = (name) => async (dispatch) => {
-	const {data} = await httpConfig(`/apis/activity/${name}`);
+export const getActivityByActivityTitle = (activityTitle) => async (dispatch) => {
+	const {data} = await httpConfig(`/apis/activity/?activityTitle=${activityTitle}`);
 	dispatch({type: "GET_ACTIVITY_BY_ACTIVITY_TITLE", payload: data})
 };
