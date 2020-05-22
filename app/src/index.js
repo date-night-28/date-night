@@ -7,7 +7,7 @@ import {Home} from "./pages/Home";
 import {FourOhFour} from "./pages/FourOhFour";
 import {Footer} from "./pages/Footer";
 import {MainNav} from "./shared/components/main-nav/MainNav";
-import {Favorites} from "./shared/components/main-nav/Likes/Favorites";
+import {Favorites} from "./shared/components/main-nav/favorites/Favorites";
 
 const Routing = () => (
 	<>
