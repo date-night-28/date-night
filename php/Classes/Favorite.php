@@ -215,7 +215,7 @@ private $favoriteDate;
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $favoriteProfileId profile id to search for
-	 * @return \SplFixedArray SplFixedArray of Favorites found or null if not found
+	 * @return \SplFixedArray SplFixedArray of favorites found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
 	public static function getFavoriteByFavoriteProfileId(\PDO $pdo, string $favoriteProfileId) : \SPLFixedArray {

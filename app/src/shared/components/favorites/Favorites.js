@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, Button} from "react-bootstrap";
 export const Favorites = ({match}) => {
-	console.log(match);
 
 	return <>
 		<h1>Favorites</h1>
