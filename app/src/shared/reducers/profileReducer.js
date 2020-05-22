@@ -1,11 +1,14 @@
 export default (state = [], action) => {
 	switch(action.type) {
-		case "GET_USER_BY_USER_HANDLE":
+		case "GET_PROFILE_BY_PROFILE_NAME":
 			return action.payload;
-		case "GET_USER_BY_USER_ID":
+
+		case "GET_PROFILE_BY_PROFILE_ID":
 			return [...state, action.payload];
-		case "GET_USER_BY_USER_EMAIL":
+
+		case "GET_PROFILE_BY_PROFILE_EMAIL":
 			return action.payload;
+
 		default:
 			return state;
 	}
