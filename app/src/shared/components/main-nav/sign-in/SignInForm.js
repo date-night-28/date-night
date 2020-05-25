@@ -6,7 +6,7 @@ import {SignInFormContent} from "./SignInFormContent";
 
 
 
-export const SignInForm = () => {
+export const SignInForm = ({handleClose}) => {
 	const validator = Yup.object().shape({
 		profileEmail: Yup.string()
 			.email("email must be a valid email")
@@ -31,8 +31,9 @@ export const SignInForm = () => {
 				if(reply.status === 200 && reply.headers["x-jwt-token"]) {
 					window.localStorage.removeItem("jwt-token");
 					window.localStorage.setItem("jwt-token", reply.headers["x-jwt-token"]);
-					resetForm();
+					handleClose();
 				}
+				alert (message);
 			});
 	};
 

@@ -5,7 +5,7 @@ import {Formik} from "formik";
 
 import {SignUpFormContent} from "./SignUpFormContent";
 
-export const SignUpForm = () => {
+export const SignUpForm = ({handleClose}) => {
 	const signUp = {
 		profileEmail: "",
 		profileName: "",
@@ -34,8 +34,9 @@ export const SignUpForm = () => {
 					let {message, type} = reply;
 
 					if(reply.status === 200) {
-						resetForm();
+						handleClose();
 					}
+					alert (message);
 					setStatus({message, type});
 				}
 			);
