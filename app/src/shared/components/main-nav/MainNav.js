@@ -4,7 +4,8 @@ import Nav from "react-bootstrap/Nav";
 import {LinkContainer} from "react-router-bootstrap"
 import {SignUpModal} from "./sign-up/SignUpModal";
 import {SignInModal} from "./sign-in/SignInModal";
-// import {ProfileModal} from "./profile/ProfileModal";
+import {Profile} from "../profile/Profile";
+
 
 
 
@@ -15,7 +16,7 @@ export const MainNav = (props) => {
 				<Navbar.Brand>Navbar</Navbar.Brand>
 			</LinkContainer>
 			<Nav className="mr-auto">
-				{/*<ProfileModal/>*/}
+				{/*<Profile/>*/}
 				<SignUpModal/>
 				<SignInModal/>
 				<LinkContainer exact to="/Favorites"

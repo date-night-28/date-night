@@ -12,6 +12,7 @@ import {Provider} from "react-redux";
 import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
 import reducers from "./shared/reducers";
+import {Profile} from "./shared/components/profile/Profile";
 
 
 const store = createStore(reducers,applyMiddleware(thunk));
@@ -23,6 +24,7 @@ const Routing = (store) => (
 		<BrowserRouter>
 			<MainNav/>
 			<Favorites/>
+			<Profile/>
 			<Switch>
 				<Route exact path="/" component={Home}/>
 				<Route component={FourOhFour}/>
