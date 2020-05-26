@@ -5,16 +5,19 @@ import {Button, Card} from "react-bootstrap";
 export const Activity = ({activities}) => {
 	let activity=activities[Math.round (Math.random()*activities.length-1)]
 
+	const submit = () => {
+		window.location.reload()
+	}
 
 	return (
 		<>
 			<h1>Activity</h1>
+			​
+			<button className="btn btn-primary" type="submit" onClick={submit}>
+			Find me something to do!
+			</button>
 
-			<Button variant="primary" size="lg">
-				Find me something to do!
-			</Button>
-
-			<h1>{activity.activityTitle}</h1>
+			<h1 className="text-center bg-dark text-white">{activity.activityTitle}</h1>
 			<Card style={{width: '50rem', height: '50rem'}}>
 				<Card.Img variant="top" src={activity.activityImageUrl} />
 				<Card.Body>

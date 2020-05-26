@@ -22,9 +22,9 @@ const Routing = (store) => (
 		<Provider store={store}>
 		<BrowserRouter>
 			<MainNav/>
-			<Favorites/>
 			<Switch>
 				<Route exact path="/" component={Home}/>
+				<Route exactpath="/favorites" component={Favorites}/>
 				<Route component={FourOhFour}/>
 			</Switch>
 			<Footer/>
