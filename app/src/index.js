@@ -12,6 +12,7 @@ import {Provider} from "react-redux";
 import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
 import reducers from "./shared/reducers";
+import {Container} from "react-bootstrap";
 
 
 const store = createStore(reducers,applyMiddleware(thunk));
@@ -21,6 +22,7 @@ const Routing = (store) => (
 	<>
 		<Provider store={store}>
 		<BrowserRouter>
+			<Container>
 			<MainNav/>
 			<Switch>
 				<Route exact path="/" component={Home}/>
@@ -28,6 +30,7 @@ const Routing = (store) => (
 				<Route component={FourOhFour}/>
 			</Switch>
 			<Footer/>
+			</Container>
 		</BrowserRouter>
 		</Provider>
 

@@ -1,41 +1,53 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Card, Button} from "react-bootstrap";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import {useDispatch, useSelector} from "react-redux";
+import {getFavoritesByFavoriteProfileId} from "../../actions/favoritesAction";
+import * as jwtDecode from "jwt-decode";
+import {FavoriteCard} from "./FavoriteCard"
 export const Favorites = ({match}) => {
 
+let profileId=
+	(window.localStorage.getItem("jwt-token"))
+	?
+	jwtDecode(window.localStorage.getItem("jwt-token"))
+		.auth.profileId
+			:
+			""
 
-		return <>
-			<Jumbotron fluid>
+
+	// use selector to set favorites to users stored in state
+	const favorites = useSelector(state => state.favorites);
+
+	// use dispatch from redux to dispatch actions
+	const dispatch = useDispatch();
+
+	// get favorites
+	const effects = () => {
+
+		dispatch(getFavoritesByFavoriteProfileId(profileId))
+	};
+
+	// set inputs to an empty array before update
+	const inputs = [];
+
+	// do this effect on component update
+	useEffect(effects, inputs);
+
+
+	return (
+		<>
+		<Jumbotron fluid>
 		<h1 className="text-center">Favorites</h1>
 			</Jumbotron>
-			<Card>
-				<Card.Img style={{ width: '18rem' }} src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAMFBMVEXJycmamprMzMzFxcWdnZ2goKCjo6PCwsLHx8e7u7unp6e4uLiwsLCtra3AwMC1tbWpnO67AAABOUlEQVR4nO3Yy46DIBiA0YJ4qb3M+7/tiLbpjMByopOcs2hI3JAv+NdwuQAAAAAAAAAAAAAAAAAAAAAAAAAAAPAPxaajd3Y+49w3DNej93Y2cQgtKUxH7+5sUhq7qmkI49GbO5s+7c7Pe1hFsQr7WN38mlVilfax5mVWrQuxSrtYcUivwS5WaX+yrinc16ElVqkY8JfJgG/5xBpvvx6IVfrE6sPz5wOxSu9YcfkbTF1ejTczq+EVK96XVqnPyyGszcQqvWJdc6sU5hgfIQ35aIlV2mJ1aRPuudr68SBWaYs1hHet7fcpVk2OlV+9HbFqlljxq7zMmsWqyCerdp0lVkW/vHG1e3ixKvo0NK7g0/a9xceteQcfHkfv7Xymxh1851wBAAAAAAAAAAAAAAAAAAAAAAAAAMAf+wbOkwdCSXzOnAAAAABJRU5ErkJggg==" />
 
-				<Card.Body>
-					<Card.Title>Favorite Activity1</Card.Title>
-					<Card.Text >
-						etermine. Beyond rather sooner so if up wishes or.
-					</Card.Text>
-					<Button variant="primary">Link to activity</Button>
-					<Button variant="primary">Delete Fave</Button>
+			<main className="container">
+				<div className="card-group card-columns">
+					{favorites.map(favorite => <FavoriteCard activityId={favorite.favoriteActivityId} key={favorite.favoriteActivityId}/>)}
+				</div>
+			</main>
 
-				</Card.Body>
-			</Card>
-
-		<Card>
-			<Card.Img variant="top" style={{ width: '18rem' }} src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAMFBMVEXJycmamprMzMzFxcWdnZ2goKCjo6PCwsLHx8e7u7unp6e4uLiwsLCtra3AwMC1tbWpnO67AAABOUlEQVR4nO3Yy46DIBiA0YJ4qb3M+7/tiLbpjMByopOcs2hI3JAv+NdwuQAAAAAAAAAAAAAAAAAAAAAAAAAAAPAPxaajd3Y+49w3DNej93Y2cQgtKUxH7+5sUhq7qmkI49GbO5s+7c7Pe1hFsQr7WN38mlVilfax5mVWrQuxSrtYcUivwS5WaX+yrinc16ElVqkY8JfJgG/5xBpvvx6IVfrE6sPz5wOxSu9YcfkbTF1ejTczq+EVK96XVqnPyyGszcQqvWJdc6sU5hgfIQ35aIlV2mJ1aRPuudr68SBWaYs1hHet7fcpVk2OlV+9HbFqlljxq7zMmsWqyCerdp0lVkW/vHG1e3ixKvo0NK7g0/a9xceteQcfHkfv7Xymxh1851wBAAAAAAAAAAAAAAAAAAAAAAAAAMAf+wbOkwdCSXzOnAAAAABJRU5ErkJggg==" />
-
-			<Card.Body>
-				<Card.Title>Favorite Activity2</Card.Title>
-				<Card.Text>
-					arranging of determine. Beyond rather sooner so if up wishes or.
-				</Card.Text>
-				<Button variant="primary">Link to activity</Button>
-				<Button variant="primary">Delete Fave</Button>
-
-			</Card.Body>
-		</Card>
 
 	</>
-
+	)
 };

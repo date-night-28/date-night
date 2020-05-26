@@ -4,8 +4,7 @@ import footer from "../shared/css/styles.css"
 export const Footer = () => {
 	return (
 		<>
-			<div>
-				<footer >
+				<footer>
 					<div className="row text-center">
 						<div className="col-md-12">
 			<h2>Footer</h2>
@@ -13,7 +12,6 @@ export const Footer = () => {
 						</div>
 					</div>
 				</footer>
-			</div>
 
 
 		</>
