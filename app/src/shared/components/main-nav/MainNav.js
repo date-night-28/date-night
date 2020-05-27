@@ -41,7 +41,7 @@ export const MainNav = (props) => {
 				}
 				{jwt !== null &&
 					<Nav.Item onClick={signOut}
-								 className="py-4 btn"
+								 className="btn"
 					>Sign Out</Nav.Item>
 				}
 

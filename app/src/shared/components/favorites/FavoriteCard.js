@@ -6,7 +6,7 @@ export const FavoriteCard = ({activity}) => {
 	return (
 		<>
 
-			<Card style={{width: '50rem'}}>
+			<Card className="m-3" style={{width: '50rem'}}>
 				<Card.Img style={{height: '25rem'}} variant="top" src={activity.activityImageUrl} />
 				<h4 className="text-center bg-dark text-white">{activity.activityTitle}</h4>
 				<Card.Body>
