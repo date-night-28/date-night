@@ -1,5 +1,5 @@
 import React, {useEffect} from "react"
-import {Activity} from "../shared/components/Activity";
+import {Activity} from "../shared/components/activity/Activity";
 import {useDispatch, useSelector} from "react-redux";
 import {getAllActivities} from "../shared/actions/activityAction";
 

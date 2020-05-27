@@ -28,7 +28,7 @@ export const MainNav = (props) => {
 	return(
 		<Navbar fixed="top" bg="primary" variant="dark">
 			<LinkContainer exact to="/" >
-				<Navbar.Brand>Navbar</Navbar.Brand>
+				<Navbar.Brand>Date Night</Navbar.Brand>
 			</LinkContainer>
 			<Nav className="mr-auto">
 				{/*<ProfileModal/>*/}

@@ -38,8 +38,10 @@ export const Favorites = () => {
 // console.log(activities)
 	return (
 		<>
+<div className="row-cols-1">
 			{favorites.length && <FavoriteFilter favorites={favorites}/> }
 
+		</div>
 
 	</>
 	)
