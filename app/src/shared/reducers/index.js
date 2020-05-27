@@ -7,6 +7,6 @@ export default combineReducers({
 
 	profile: profileReducer,
 	activities: activityReducer,
-	favorite: favoritesReducer,
+	favorites: favoritesReducer,
 
 });

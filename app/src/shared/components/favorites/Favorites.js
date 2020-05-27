@@ -1,23 +1,15 @@
 import React, {useEffect} from 'react'
-import { Card, Button} from "react-bootstrap";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import {useDispatch, useSelector} from "react-redux";
-import {getFavoritesByFavoriteProfileId} from "../../actions/favoritesAction";
+import {getFavoritesByCurrentLoggedInUser} from "../../actions/favoritesAction";
 import * as jwtDecode from "jwt-decode";
 import {FavoriteCard} from "./FavoriteCard"
-export const Favorites = ({match}) => {
-
-let profileId=
-	(window.localStorage.getItem("jwt-token"))
-	?
-	jwtDecode(window.localStorage.getItem("jwt-token"))
-		.auth.profileId
-			:
-			""
-
+import {filterActivitiesByFavorites, getAllActivities} from "../../actions/activityAction";
+import {FavoriteFilter} from "./FavoriteFilter";
+export const Favorites = () => {
 
 	// use selector to set favorites to users stored in state
-	const favorites = useSelector(state => state.favorites);
+	const favorites = useSelector(state => state.favorites ? state.favorites : []);
 
 	// use dispatch from redux to dispatch actions
 	const dispatch = useDispatch();
@@ -25,7 +17,8 @@ let profileId=
 	// get favorites
 	const effects = () => {
 
-		dispatch(getFavoritesByFavoriteProfileId(profileId))
+		dispatch(getFavoritesByCurrentLoggedInUser())
+
 	};
 
 	// set inputs to an empty array before update
@@ -33,21 +26,21 @@ let profileId=
 
 	// do this effect on component update
 	useEffect(effects, inputs);
-
-
+// 	console.log(activities)
+//
+// console.log(favorites)
+// 	let favoriteActivities=[]
+//
+// 	favorites.forEach(favorite=>{
+// 		favoriteActivities=[...favoriteActivities, activities.filter(activity=>activity.activityId===favorite.favoriteActivityId)]
+// 	})
+// console.log(favoriteActivities)
+// console.log(activities)
 	return (
 		<>
-		<Jumbotron fluid>
-		<h1 className="text-center">Favorites</h1>
-			</Jumbotron>
-
-			<main className="container">
-				<div className="card-group card-columns">
-					{favorites.map(favorite => <FavoriteCard activityId={favorite.favoriteActivityId} key={favorite.favoriteActivityId}/>)}
-				</div>
-			</main>
+			{favorites.length && <FavoriteFilter favorites={favorites}/> }
 
 
 	</>
 	)
-};
+}

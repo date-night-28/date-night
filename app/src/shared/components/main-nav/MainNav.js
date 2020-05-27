@@ -6,7 +6,7 @@ import {SignUpModal} from "./sign-up/SignUpModal";
 import {SignInModal} from "./sign-in/SignInModal";
 // import {ProfileModal} from "./profile/ProfileModal";
 
-
+const loggedIn=window.localStorage.getItem("jwt-token")
 
 export const MainNav = (props) => {
 	return(

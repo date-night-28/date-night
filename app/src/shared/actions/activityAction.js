@@ -14,3 +14,8 @@ export const getActivityByActivityTitle = (activityTitle) => async (dispatch) =>
 	const {data} = await httpConfig(`/apis/activity/?activityTitle=${activityTitle}`);
 	dispatch({type: "GET_ACTIVITY_BY_ACTIVITY_TITLE", payload: data})
 };
+
+export const filterActivitiesByFavorites = (favorites) => dispatch => {
+	console.log(favorites)
+	dispatch({type: "FILTER_ACTIVITIES_BY_FAVORITES", payload: favorites})
+};
