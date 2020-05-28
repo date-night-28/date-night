@@ -26,7 +26,7 @@ export const MainNav = (props) => {
 	};
 
 	return(
-		<Navbar fixed="top" bg="primary" variant="dark">
+		<Navbar fixed="top" bg="dark" variant="dark">
 			<LinkContainer exact to="/" >
 				<Navbar.Brand>Date Night</Navbar.Brand>
 			</LinkContainer>
